@@ -1,0 +1,183 @@
+page {
+  min-height: 100%;
+  color: #17382b;
+  background: #f3f8f1;
+  font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+view,
+text,
+image,
+button,
+input,
+scroll-view {
+  box-sizing: border-box;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+button {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  border: 0;
+  background: transparent;
+}
+
+button::after {
+  border: 0;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+.safe-top {
+  height: calc(env(safe-area-inset-top) + 24px);
+  min-height: 44px;
+}
+
+.topbar {
+  height: 92rpx;
+  padding: 0 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-title {
+  font-size: 36rpx;
+  line-height: 1;
+  font-weight: 800;
+  color: #17382b;
+}
+
+.topbar-subtitle {
+  margin-top: 8rpx;
+  font-size: 20rpx;
+  color: #6b8377;
+}
+
+.back-button {
+  width: 64rpx !important;
+  min-width: 64rpx;
+  max-width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1c6d50;
+  font-size: 42rpx;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8rpx 24rpx rgba(29, 99, 71, 0.12);
+}
+
+.page-shell .back-button {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page-shell .topbar-title,
+.page-shell .topbar-subtitle,
+.page-shell .achievement-title,
+.page-shell .cards-title,
+.page-shell .me-title,
+.page-shell .quiz-title,
+.page-shell .ranking-title,
+.page-shell .ranking-subtitle,
+.page-shell .reward-title,
+.page-shell .reward-subtitle,
+.page-shell .rules-title,
+.page-shell .staff-title {
+  visibility: hidden;
+}
+
+.page-content {
+  padding: 18rpx 28rpx 40rpx;
+}
+
+.section-title-row {
+  margin: 30rpx 0 18rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #17382b;
+}
+
+.section-note {
+  font-size: 22rpx;
+  color: #779084;
+}
+
+.panel {
+  border: 2rpx solid rgba(30, 113, 79, 0.09);
+  border-radius: 16rpx;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12rpx 32rpx rgba(36, 93, 69, 0.08);
+}
+
+.primary-button {
+  width: 100%;
+  min-height: 84rpx;
+  padding: 0 30rpx;
+  border-radius: 42rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #fff;
+  background: #188b5f;
+  box-shadow: 0 10rpx 22rpx rgba(24, 139, 95, 0.23);
+}
+
+.primary-button[disabled] {
+  color: #8da097;
+  background: #dce8e2;
+  box-shadow: none;
+}
+
+.secondary-button {
+  width: auto;
+  min-height: 76rpx;
+  padding: 0 28rpx;
+  border: 2rpx solid #9bcab2;
+  border-radius: 38rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #197451;
+  background: #f4fbf7;
+}
+
+.pill {
+  padding: 9rpx 18rpx;
+  border-radius: 24rpx;
+  font-size: 20rpx;
+  font-weight: 700;
+  color: #16734f;
+  background: #e1f4e9;
+}
+
+.muted {
+  color: #779084;
+}
+
+.empty-state {
+  padding: 70rpx 30rpx;
+  text-align: center;
+  color: #779084;
+}

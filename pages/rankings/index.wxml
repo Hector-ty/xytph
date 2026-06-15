@@ -1,0 +1,96 @@
+<app-nav></app-nav>
+<view class="page-shell ranking-page">
+  <view class="ranking-hero">
+    <view class="safe-top"></view>
+    <view class="topbar ranking-topbar">
+      <view>
+        <view class="ranking-title">减碳排行榜</view>
+        <view class="ranking-subtitle">每一次绿色行动，都值得被看见</view>
+      </view>
+      <view class="update-chip">{{updatedAt}}</view>
+    </view>
+
+    <view class="ranking-tabs">
+      <button class="{{selected === 'personal' ? 'active' : ''}}" bindtap="select" data-type="personal">个人榜</button>
+      <button class="{{selected === 'walking' ? 'active' : ''}}" bindtap="select" data-type="walking">步行减碳榜</button>
+      <button class="{{selected === 'college' ? 'active' : ''}}" bindtap="select" data-type="college">学院榜</button>
+      <button class="{{selected === 'zone' ? 'active' : ''}}" bindtap="select" data-type="zone">专区榜</button>
+    </view>
+
+    <view class="podium">
+      <view class="podium-item podium-second">
+        <view class="podium-avatar">2</view>
+        <view class="podium-name">{{topThree[1].name}}</view>
+        <view class="podium-score">{{topThree[1].scoreText}}</view>
+        <view class="podium-base">2</view>
+      </view>
+      <view class="podium-item podium-first">
+        <view class="crown">冠</view>
+        <view class="podium-avatar">1</view>
+        <view class="podium-name">{{topThree[0].name}}</view>
+        <view class="podium-score">{{topThree[0].scoreText}}</view>
+        <view class="podium-base">1</view>
+      </view>
+      <view class="podium-item podium-third">
+        <view class="podium-avatar">3</view>
+        <view class="podium-name">{{topThree[2].name}}</view>
+        <view class="podium-score">{{topThree[2].scoreText}}</view>
+        <view class="podium-base">3</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-content ranking-content">
+    <view class="self-rank panel">
+      <view class="self-rank-number">{{selfRankText}}</view>
+      <view class="self-avatar">
+        <image src="/assets/brand/xiaoshan.png" mode="aspectFit"></image>
+      </view>
+      <view class="self-copy">
+        <view class="self-name">我的排名</view>
+        <view class="self-college">{{userCollegeLabel}}</view>
+      </view>
+      <view class="self-score">
+        <view>{{selfScoreMain}}<text> {{selfScoreUnit}}</text></view>
+        <view wx:if="{{selfScoreMeta}}" class="self-score-meta">{{selfScoreMeta}}</view>
+      </view>
+    </view>
+
+    <view wx:if="{{selected === 'walking'}}" class="walking-panel panel">
+      <view class="walking-switch">
+        <button class="{{walkingRole === 'student' ? 'active' : ''}}" bindtap="selectWalkingRole" data-role="student">学生榜</button>
+        <button class="{{walkingRole === 'teacher' ? 'active' : ''}}" bindtap="selectWalkingRole" data-role="teacher">老师榜</button>
+      </view>
+      <view class="walking-sync-row">
+        <view class="walking-sync-copy">
+          <view class="walking-sync-title">今日微信步数</view>
+          <view class="walking-sync-note">{{walkingSyncError || walkingSyncText || '同步后按步数排名，减碳量按 0.142g/步估算'}}</view>
+        </view>
+        <button class="walking-sync-button" bindtap="syncWalkingSteps" loading="{{walkingSyncing}}">同步</button>
+      </view>
+    </view>
+
+    <view class="section-title-row">
+      <view class="section-title">榜单详情</view>
+      <view class="section-note">{{selected === 'walking' ? '展示前 100 名 · 今日微信步数' : '展示前 100 名 · 信息已脱敏'}}</view>
+    </view>
+
+    <view class="ranking-list panel">
+      <block wx:if="{{list.length}}">
+        <view class="ranking-row" wx:for="{{list}}" wx:key="rank">
+          <view class="ranking-number {{item.rank <= 3 ? 'ranking-number-top' : ''}}">{{item.rank}}</view>
+          <view class="ranking-avatar">{{item.initial}}</view>
+          <view class="ranking-copy">
+            <view class="ranking-name">{{item.name}}</view>
+            <view class="ranking-college">{{item.college}}</view>
+          </view>
+          <view class="ranking-score">
+            <view>{{item.scoreMain}}<text> {{item.scoreUnit}}</text></view>
+            <view wx:if="{{item.scoreMeta}}" class="ranking-score-meta">{{item.scoreMeta}}</view>
+          </view>
+        </view>
+      </block>
+      <view wx:else class="ranking-empty">虚位以待</view>
+    </view>
+  </view>
+</view>

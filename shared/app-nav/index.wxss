@@ -1,0 +1,119 @@
+.app-back {
+  position: fixed;
+  top: 96rpx;
+  left: 24rpx;
+  z-index: 9999;
+  right: 180rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.app-back__button {
+  flex: none;
+  width: 60rpx;
+  min-width: 60rpx;
+  max-width: 60rpx;
+  height: 60rpx;
+  min-height: 60rpx;
+  max-height: 60rpx;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background: linear-gradient(135deg, #21a06e 0%, #0f7754 100%);
+  box-shadow: 0 8rpx 18rpx rgba(11, 86, 60, 0.22);
+  pointer-events: auto;
+}
+
+.app-back__button--hover {
+  transform: translateY(1rpx);
+  opacity: 0.9;
+}
+
+.app-back__arrow {
+  width: 18rpx;
+  height: 18rpx;
+  margin-left: 6rpx;
+  border-bottom: 6rpx solid #fff;
+  border-left: 6rpx solid #fff;
+  transform: rotate(45deg);
+}
+
+.app-back__title {
+  min-width: 0;
+  max-width: 430rpx;
+  margin-left: 16rpx;
+  overflow: hidden;
+  font-size: 34rpx;
+  line-height: 1;
+  font-weight: 900;
+  color: #17382b;
+  text-overflow: ellipsis;
+  text-shadow: 0 2rpx 8rpx rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+}
+
+.app-back--light .app-back__title {
+  color: #fff;
+  text-shadow: 0 3rpx 8rpx rgba(0, 58, 39, 0.32);
+}
+
+.app-back--step {
+  height: 64rpx;
+  align-items: center;
+}
+
+.app-back__step-card {
+  min-width: 0;
+  flex: 1;
+  max-width: 460rpx;
+  margin-left: 16rpx;
+  height: 60rpx;
+  padding: 0 18rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.78);
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.84);
+  -webkit-backdrop-filter: blur(18rpx);
+  backdrop-filter: blur(18rpx);
+  box-shadow: 0 10rpx 26rpx rgba(18, 75, 52, 0.14);
+  pointer-events: auto;
+}
+
+.app-back__step-row {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.app-back__step-title {
+  flex: none;
+  overflow: hidden;
+  font-size: 34rpx;
+  line-height: 1;
+  font-weight: 900;
+  color: #17382b;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-back__step-campus {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  font-size: 22rpx;
+  line-height: 1;
+  font-weight: 800;
+  color: #567669;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}

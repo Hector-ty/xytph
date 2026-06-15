@@ -1,0 +1,158 @@
+.cards-page {
+  background: #f4f7f2;
+}
+
+.cards-hero {
+  position: relative;
+  height: 570rpx;
+  overflow: hidden;
+  background: linear-gradient(180deg, #d7f2e6 0%, #f0f3d8 100%);
+}
+
+.cards-topbar {
+  position: relative;
+  z-index: 4;
+  height: 88rpx;
+  padding: 0 190rpx 0 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cards-title {
+  font-size: 31rpx;
+  font-weight: 900;
+}
+
+.cards-count {
+  padding: 8rpx 14rpx;
+  border-radius: 22rpx;
+  font-size: 18rpx;
+  font-weight: 800;
+  color: #247453;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.cards-hero-copy {
+  position: relative;
+  z-index: 3;
+  width: 62%;
+  padding: 55rpx 0 0 36rpx;
+}
+
+.cards-kicker {
+  font-size: 21rpx;
+  font-weight: 800;
+  color: #27805c;
+}
+
+.cards-hero-title {
+  margin-top: 12rpx;
+  font-size: 35rpx;
+  line-height: 1.38;
+  font-weight: 900;
+}
+
+.draw-button {
+  width: 150rpx !important;
+  height: 58rpx;
+  margin-top: 22rpx;
+  border-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21rpx;
+  line-height: 1;
+  font-weight: 800;
+  color: #fff;
+  background: #e39429;
+  box-shadow: 0 8rpx 17rpx rgba(190, 120, 32, 0.22);
+}
+
+.cards-building {
+  position: absolute;
+  right: -180rpx;
+  bottom: -35rpx;
+  width: 650rpx;
+  height: 430rpx;
+  opacity: 0.62;
+  mix-blend-mode: multiply;
+}
+
+.cards-content {
+  margin-top: -25rpx;
+  border-radius: 28rpx 28rpx 0 0;
+  background: #f4f7f2;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.campus-card {
+  position: relative;
+  height: 330rpx;
+  padding: 18rpx;
+  border: 7rpx solid #fff;
+  border-radius: 18rpx;
+  overflow: hidden;
+  color: #fff;
+  box-shadow: 0 12rpx 26rpx rgba(40, 85, 65, 0.14);
+}
+
+.campus-card.locked {
+  filter: grayscale(0.8);
+  opacity: 0.52;
+}
+
+.card-number {
+  font-size: 16rpx;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.card-icon {
+  width: 112rpx;
+  height: 112rpx;
+  margin: 30rpx auto 0;
+  border: 8rpx solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38rpx;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.card-copy {
+  position: absolute;
+  right: 18rpx;
+  bottom: 17rpx;
+  left: 18rpx;
+  z-index: 2;
+}
+
+.card-name {
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.card-note {
+  margin-top: 6rpx;
+  font-size: 16rpx;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.card-leaf {
+  position: absolute;
+  right: -26rpx;
+  bottom: -20rpx;
+  width: 130rpx;
+  height: 85rpx;
+  border: 11rpx solid rgba(255, 255, 255, 0.13);
+  border-radius: 100% 0 100% 0;
+  transform: rotate(-20deg);
+}

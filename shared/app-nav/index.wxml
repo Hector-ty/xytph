@@ -1,0 +1,12 @@
+<view wx:if="{{showBack}}" class="app-back {{lightTitle ? 'app-back--light' : ''}} {{isStepChallenge ? 'app-back--step' : ''}}">
+  <view class="app-back__button" hover-class="app-back__button--hover" bindtap="goBack">
+    <view class="app-back__arrow"></view>
+  </view>
+  <view wx:if="{{isStepChallenge}}" class="app-back__step-card">
+    <view class="app-back__step-row">
+      <view class="app-back__step-title">{{title}}</view>
+      <view class="app-back__step-campus">{{stepCampusLabel}}</view>
+    </view>
+  </view>
+  <view wx:else class="app-back__title">{{title}}</view>
+</view>

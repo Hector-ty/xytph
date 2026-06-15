@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Navigation Entry Preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 430px;
+      height: 932px;
+      margin: 0;
+      padding: 22px 16px;
+      overflow: hidden;
+      font-family: "Microsoft YaHei", sans-serif;
+      color: #17382b;
+      background: #f5f8f4;
+    }
+    .title { margin: 8px 0 12px; font-size: 22px; font-weight: 900; }
+    .panel {
+      border: 1px solid rgba(30, 113, 79, .09);
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 6px 16px rgba(36, 93, 69, .08);
+    }
+    .map {
+      position: relative;
+      height: 260px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(24deg, transparent 0 44%, #fff 44% 49%, transparent 49%),
+        linear-gradient(150deg, transparent 0 40%, #fff 40% 45%, transparent 45%),
+        #d9efdf;
+    }
+    .pin {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border: 3px solid #fff;
+      border-radius: 50% 50% 50% 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      transform: rotate(-45deg);
+      box-shadow: 0 4px 8px rgba(46,89,68,.22);
+    }
+    .pin span { transform: rotate(45deg); }
+    .pin.one { left: 210px; top: 100px; background: #2B9568; }
+    .pin.two { left: 305px; top: 150px; background: #7770B8; }
+    .you {
+      position: absolute;
+      left: 170px;
+      bottom: 28px;
+      padding: 5px 10px;
+      border: 2px solid #fff;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff;
+      background: #2b8fac;
+    }
+    .row {
+      min-height: 66px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #edf2ee;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .row:last-child { border-bottom: 0; }
+    .icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: #7770B8;
+      background: rgba(119,112,184,.1);
+    }
+    .copy { min-width: 0; flex: 1; }
+    .name { font-size: 15px; font-weight: 900; }
+    .note {
+      margin-top: 4px;
+      overflow: hidden;
+      font-size: 12px;
+      color: #809087;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .actions {
+      flex: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+    .tag {
+      padding: 4px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      color: #627a6e;
+      background: #edf4ef;
+    }
+    button {
+      width: 52px;
+      height: 25px;
+      border: 0;
+      border-radius: 13px;
+      font-size: 11px;
+      font-weight: 900;
+      color: #fff;
+      background: #19845e;
+    }
+    .exchange {
+      min-height: 56px;
+      margin-top: 14px;
+      padding: 9px 10px;
+      border: 1px solid rgba(25,132,94,.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      box-shadow: 0 5px 12px rgba(32,105,76,.08);
+    }
+    .exchange .icon {
+      color: #fff;
+      background: #19845e;
+    }
+    .exchange button {
+      width: 56px;
+      height: 28px;
+    }
+  </style>
+</head>
+<body>
+  <div class="title">校园地图导航入口</div>
+  <div class="map panel">
+    <div class="pin one"><span>签</span></div>
+    <div class="pin two"><span>礼</span></div>
+    <div class="you">你在这里</div>
+  </div>
+  <div class="panel">
+    <div class="row">
+      <div class="icon">礼</div>
+      <div class="copy">
+        <div class="name">奖品兑换处</div>
+        <div class="note">凭待核销兑换码领取活动奖品</div>
+      </div>
+      <div class="actions">
+        <div class="tag">兑换</div>
+        <button>导航</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="icon" style="color:#2B9568;background:rgba(43,149,104,.1)">签</div>
+      <div class="copy">
+        <div class="name">主楼签到点</div>
+        <div class="note">活动主签到点，开放时间 08:00-18:00</div>
+      </div>
+      <div class="actions">
+        <div class="tag">签到</div>
+        <button>导航</button>
+      </div>
+    </div>
+  </div>
+  <div class="title" style="margin-top:22px;">普惠商城兑换点</div>
+  <div class="exchange">
+    <div class="icon">兑</div>
+    <div class="copy">
+      <div class="name">内蒙古大学兑换点</div>
+      <div class="note">北校区活动服务点，可从当前位置导航前往</div>
+    </div>
+    <button>导航</button>
+  </div>
+</body>
+</html>

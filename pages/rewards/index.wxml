@@ -1,0 +1,155 @@
+<app-nav></app-nav>
+<view class="page-shell rewards-page">
+  <view class="reward-hero">
+    <view class="safe-top"></view>
+    <view class="topbar reward-topbar">
+      <view>
+        <view class="reward-title">碳惠商城</view>
+        <view class="reward-subtitle">用每一次绿色行动，兑换校园好礼</view>
+      </view>
+      <button class="reward-rule-button" bindtap="goRules" style="position: relative; left: 0rpx; top: -14rpx">积分规则</button>
+    </view>
+
+    <view class="balance-card" style="position: relative; left: 0rpx; top: -25rpx">
+      <view>
+        <view class="balance-label">可用积分</view>
+        <view class="balance-value">{{user.points}}</view>
+        <view class="balance-rank">排行总积分 {{user.rankTotal}} · 兑换不影响排名</view>
+      </view>
+      <image class="balance-mascot" src="/assets/brand/xiaoshui.png" mode="aspectFit"></image>
+      <view class="balance-circle circle-one"></view>
+      <view class="balance-circle circle-two"></view>
+    </view>
+  </view>
+
+  <view class="page-content reward-content">
+    <view class="reward-tabs">
+      <button class="{{selectedTab === 'rewards' ? 'active' : ''}}" bindtap="selectTab" data-tab="rewards">兑换好礼</button>
+      <button class="{{selectedTab === 'records' ? 'active' : ''}}" bindtap="selectTab" data-tab="records">兑换记录</button>
+    </view>
+
+    <view class="exchange-point-card">
+      <view class="exchange-point-icon">兑</view>
+      <view class="exchange-point-copy">
+        <view class="exchange-point-title">{{exchangeLocation.name || '内蒙古大学兑换点'}}</view>
+        <view class="exchange-point-note">{{exchangeLocation.address || '内蒙古大学南校区卓越楼'}}，可从当前位置导航前往</view>
+      </view>
+      <button class="exchange-point-button" bindtap="navigateExchangePoint">导航</button>
+    </view>
+
+    <block wx:if="{{selectedTab === 'rewards'}}">
+      <view class="reward-tip">
+        <view class="reward-tip-icon">礼</view>
+        <view>
+          <view class="reward-tip-title">今日好礼已更新</view>
+          <view class="reward-tip-note">奖品库存实时计算，兑换后请及时到活动服务点核销</view>
+        </view>
+      </view>
+
+      <view class="reward-grid">
+        <view class="reward-card panel {{item.isWide ? 'reward-card-wide' : ''}}" wx:for="{{rewards}}" wx:key="id">
+          <view class="reward-visual">
+            <image
+              class="reward-image"
+              src="{{item.image}}"
+              mode="aspectFit"
+              binderror="handleRewardImageError"
+              data-index="{{index}}"
+            ></image>
+            <view class="reward-stock">{{item.stockText}}</view>
+          </view>
+          <view class="reward-card-copy">
+            <view class="reward-name">{{item.name}}</view>
+            <view class="reward-note">{{item.note}}</view>
+            <view class="reward-bottom">
+              <view class="reward-points">{{item.points}}<text> 分</text></view>
+              <button
+                class="redeem-button"
+                bindtap="redeem"
+                data-id="{{item.id}}"
+                disabled="{{item.remainingStock <= 0 || user.points < item.points}}">
+                {{item.remainingStock <= 0 ? '库存不足' : (user.points < item.points ? '积分不足' : '兑换')}}
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="record-list" wx:if="{{redemptions.length}}">
+        <view class="record-card panel" wx:for="{{redemptions}}" wx:key="id">
+          <view class="record-icon">礼</view>
+          <view class="record-copy">
+            <view class="record-name">{{item.name}}</view>
+            <view class="record-meta">消耗 {{item.points}} 分 · {{item.statusText || item.status}}</view>
+            <view class="record-code-panel" wx:if="{{item.isPending}}">
+              <view
+                class="record-qr qr-grid"
+                wx:if="{{item.qrGrid && !showCodePreview}}"
+                bindtap="showCode"
+                data-id="{{item.id}}"
+              >
+                <view class="qr-row" wx:for="{{item.qrGrid.rows}}" wx:for-item="row" wx:key="id">
+                  <view
+                    class="qr-cell {{cell.dark ? 'qr-cell-dark' : ''}}"
+                    wx:for="{{row.cells}}"
+                    wx:for-item="cell"
+                    wx:key="id"
+                  ></view>
+                </view>
+              </view>
+              <view class="record-code-copy">
+                <view class="record-code-label">数字核销码</view>
+                <view class="record-code-value">{{item.verifyCode}}</view>
+                <view class="record-code-note">工作人员扫码或输入此码核销</view>
+              </view>
+            </view>
+          </view>
+          <button class="record-code" bindtap="showCode" data-id="{{item.id}}">{{item.isPending ? '放大' : '查看'}}</button>
+        </view>
+      </view>
+      <view class="empty-state panel" wx:else>
+        <view class="empty-gift">礼</view>
+        <view>还没有兑换记录，先去完成几个低碳任务吧</view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{showCodePreview}}" class="code-preview-overlay" catchtouchmove="noop" bindtap="hideCodePreview">
+    <view class="code-preview-card" catchtap="noop">
+      <view class="code-preview-title">兑换核销码</view>
+      <view class="code-preview-name">{{codePreview.name}}</view>
+      <view class="code-preview-qr qr-grid" wx:if="{{codePreview.qrGrid}}">
+        <view class="qr-row" wx:for="{{codePreview.qrGrid.rows}}" wx:for-item="row" wx:key="id">
+          <view
+            class="qr-cell {{cell.dark ? 'qr-cell-dark' : ''}}"
+            wx:for="{{row.cells}}"
+            wx:for-item="cell"
+            wx:key="id"
+          ></view>
+        </view>
+      </view>
+      <view class="code-preview-label">数字核销码</view>
+      <view class="code-preview-value">{{codePreview.verifyCode}}</view>
+      <view class="code-preview-note">请向奖品工作人员出示二维码或数字码，核销后不可重复使用。</view>
+      <button class="code-preview-button" bindtap="hideCodePreview">关闭</button>
+    </view>
+  </view>
+
+  <view wx:if="{{showTicketSpotlight}}" class="ticket-spotlight-overlay" catchtouchmove="noop">
+    <view class="ticket-spotlight-card">
+      <view class="ticket-spotlight-badge">限时高光</view>
+      <view class="ticket-spotlight-stage">
+        <view class="ticket-spotlight-ring"></view>
+        <view class="ticket-spark ticket-spark-one"></view>
+        <view class="ticket-spark ticket-spark-two"></view>
+        <view class="ticket-spark ticket-spark-three"></view>
+        <image class="ticket-spotlight-image" src="{{ticketSpotlight.image}}" mode="aspectFit"></image>
+      </view>
+      <view class="ticket-spotlight-title">蒙超决赛门票！</view>
+      <view class="ticket-spotlight-note">快去做任务获取吧！</view>
+      <button class="ticket-spotlight-button" bindtap="dismissTicketSpotlight">我知道啦</button>
+    </view>
+  </view>
+</view>

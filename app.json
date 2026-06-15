@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/auth/index",
+    "pages/home/index",
+    "pages/weather/index",
+    "pages/step-challenge/index",
+    "pages/tasks/index",
+    "pages/rewards/index",
+    "pages/rankings/index",
+    "pages/me/index",
+    "pages/task-detail/index",
+    "pages/profile/index",
+    "pages/achievements/index",
+    "pages/news/index",
+    "pages/rules/index",
+    "pages/quiz/index",
+    "pages/campus-map/index",
+    "pages/cards/index",
+    "pages/certificate/index",
+    "pages/staff/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom",
+    "backgroundColor": "#F3F8F1",
+    "backgroundTextStyle": "light"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于识别所在校区并展示对应区县天气和校园步数挑战地图"
+    },
+    "scope.werun": {
+      "desc": "用于同步微信运动步数并完成步数挑战"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "onLocationChange",
+    "startLocationUpdate"
+  ],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,19 @@
+<app-nav></app-nav>
+<view class="page-shell rules-page">
+  <view class="safe-top"></view>
+  <view class="rules-topbar">
+    <button class="back-button" bindtap="goBack">‹</button>
+    <view class="rules-title">积分规则</view>
+    <view class="rules-spacer"></view>
+  </view>
+
+  <view class="rules-image-wrap">
+    <image
+      class="rules-image"
+      src="{{rulesImage}}"
+      mode="widthFix"
+      binderror="handleRulesImageError"
+      show-menu-by-longpress="{{true}}"
+    ></image>
+  </view>
+</view>

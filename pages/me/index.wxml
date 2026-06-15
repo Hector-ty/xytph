@@ -1,0 +1,75 @@
+<app-nav></app-nav>
+<view class="page-shell me-page">
+  <view class="me-hero">
+    <view class="safe-top"></view>
+    <view class="topbar me-topbar">
+      <view class="me-title">我的低碳档案</view>
+      <button class="student-code-button" bindtap="showStudentCode">个人码</button>
+    </view>
+
+    <view class="profile-card">
+      <view class="profile-avatar">
+        <image src="/assets/brand/xiaoshan.png" mode="aspectFit"></image>
+      </view>
+      <view class="profile-copy">
+        <view class="profile-name">{{user.name}}</view>
+        <view class="profile-college">{{user.college}}</view>
+        <view class="profile-badge">{{user.badge}}</view>
+        <view class="profile-role">{{roleLabel}}</view>
+      </view>
+      <button class="profile-edit" bindtap="go" data-route="/pages/profile/index">编辑</button>
+      <image class="profile-water" src="/assets/brand/xiaoshui.png" mode="aspectFit"></image>
+    </view>
+
+    <view class="stats-strip">
+      <view class="stats-item">
+        <view class="stats-value">{{user.points}}</view>
+        <view class="stats-label">可用积分</view>
+      </view>
+      <view class="stats-item">
+        <view class="stats-value">{{doneCount}}</view>
+        <view class="stats-label">完成任务</view>
+      </view>
+      <view class="stats-item">
+        <view class="stats-value">{{cardCount}}</view>
+        <view class="stats-label">校园卡片</view>
+      </view>
+      <view class="stats-item">
+        <view class="stats-value">{{user.streak}}</view>
+        <view class="stats-label">连续天数</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-content me-content">
+    <view class="pending-banner" wx:if="{{pendingCount}}">
+      <view class="pending-icon">审</view>
+      <view class="pending-copy">
+        <view class="pending-title">有 {{pendingCount}} 项任务等待审核</view>
+        <view class="pending-note">审核结果会在任务中心更新</view>
+      </view>
+      <view class="pending-arrow">›</view>
+    </view>
+
+    <view class="section-title-row">
+      <view class="section-title">常用服务</view>
+      <view class="section-note">低碳档案与活动服务</view>
+    </view>
+
+    <view class="menu-list panel">
+      <view class="menu-row" wx:for="{{menus}}" wx:key="title" bindtap="go" data-route="{{item.route}}" data-action="{{item.action}}">
+        <view class="menu-icon" style="color: {{item.color}}; background: {{item.color}}1A">{{item.icon}}</view>
+        <view class="menu-copy">
+          <view class="menu-title">{{item.title}}</view>
+          <view class="menu-note">{{item.note}}</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+
+    <view class="brand-footer">
+      <image src="/assets/brand/action-logo.jpg" mode="aspectFit"></image>
+      <view>美丽中国，我是行动者</view>
+    </view>
+  </view>
+</view>

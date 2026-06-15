@@ -1,0 +1,57 @@
+<app-nav></app-nav>
+<view class="page-shell quiz-page">
+  <view class="quiz-hero">
+    <view class="safe-top"></view>
+    <view class="quiz-topbar">
+      <button class="back-button" bindtap="goBack">‹</button>
+      <view class="quiz-title">低碳课堂</view>
+      <view class="quiz-progress">{{finished ? '完成' : (questionCount ? (index + 1) + '/' + questionCount : '--')}}</view>
+    </view>
+    <image class="quiz-mascot" src="/assets/brand/xiaoshui.png" mode="aspectFit"></image>
+    <view class="quiz-hero-copy">
+      <view class="quiz-kicker">题库 {{bankSize || '--'}} 题 · 随机抽 5 题</view>
+      <view class="quiz-hero-title">和小水一起，答出绿色生活新知识</view>
+    </view>
+  </view>
+
+  <view class="page-content quiz-content">
+    <block wx:if="{{!finished}}">
+      <view class="question-card panel">
+        <view class="question-label">第 {{index + 1}} 题</view>
+        <view class="question-title">{{question.title || (loading ? '正在抽题...' : '题库暂未配置')}}</view>
+        <view class="option-list">
+          <button
+            class="option-row {{answered && index === question.answer ? 'correct' : ''}} {{answered && selected === index && selected !== question.answer ? 'wrong' : ''}}"
+            wx:for="{{question.options}}"
+            wx:key="label"
+            bindtap="selectOption"
+            data-index="{{index}}"
+          >
+            <view class="option-index">{{item.label}}</view>
+            <view class="option-text">{{item.text}}</view>
+            <view class="option-result" wx:if="{{answered && index === question.answer}}">✓</view>
+            <view class="option-result" wx:elif="{{answered && selected === index}}">×</view>
+          </button>
+        </view>
+      </view>
+
+      <view class="answer-panel {{isCorrect ? 'answer-correct' : 'answer-wrong'}}" wx:if="{{answered}}">
+        <view class="answer-title">{{isCorrect ? '回答正确' : '再认识一下这个知识点'}}</view>
+        <view class="answer-explain">{{question.explain}}</view>
+      </view>
+
+      <button class="primary-button quiz-next" bindtap="next" disabled="{{loading || (!answered && questionCount > 0)}}">
+        {{loading ? '抽题中' : (questionCount === 0 ? '等待题库' : (index === questionCount - 1 ? '查看答题结果' : '下一题'))}}
+      </button>
+    </block>
+
+    <view class="quiz-result panel" wx:else>
+      <view class="result-orbit">
+        <view class="result-score">{{correctCount}}/{{questionCount}}</view>
+      </view>
+      <view class="result-title">低碳知识挑战完成</view>
+      <view class="result-note">{{alreadyCompleted ? '本次答题不重复发放积分，继续巩固绿色知识。' : '知识积分 +' + quizPoints + ' 已到账。'}}</view>
+      <button class="secondary-button result-button" bindtap="restart">再随机抽 5 题</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,31 @@
+<app-nav></app-nav>
+<view class="page-shell certificate-page">
+  <view class="safe-top"></view>
+  <view class="topbar certificate-topbar">
+    <button class="back-button" bindtap="goBack">‹</button>
+    <view class="topbar-title">活动证书</view>
+    <view class="topbar-space"></view>
+  </view>
+
+  <view class="page-content">
+    <view class="certificate">
+      <view class="certificate-border">
+        <image class="certificate-logo" src="/assets/brand/action-logo.jpg" mode="aspectFit"></image>
+        <view class="certificate-kicker">INNER MONGOLIA UNIVERSITY</view>
+        <view class="certificate-title">校园低碳行动证书</view>
+        <view class="certificate-line"></view>
+        <view class="certificate-copy">兹证明</view>
+        <view class="certificate-name">{{user.name}}</view>
+        <view class="certificate-body">参与内蒙古大学校园低碳日活动，以真实绿色行动累计获得 {{user.rankTotal}} 排行积分，为建设美丽校园贡献了青春力量。</view>
+        <view class="certificate-meta">
+          <view>
+            <view>内蒙古大学校园低碳日</view>
+            <text>2026 年 6 月</text>
+          </view>
+          <view class="certificate-seal">低碳<br/>行动</view>
+        </view>
+      </view>
+    </view>
+    <button class="primary-button certificate-button" bindtap="saveCertificate">保存证书图片</button>
+  </view>
+</view>

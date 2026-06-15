@@ -1,0 +1,131 @@
+.news-page {
+  background: linear-gradient(180deg, #e3f3ea 0%, #f6f8f4 380rpx);
+}
+
+.topbar-space {
+  width: 64rpx;
+}
+
+.featured-news {
+  position: relative;
+  height: 390rpx;
+  border-radius: 18rpx;
+  overflow: hidden;
+  box-shadow: 0 16rpx 35rpx rgba(31, 94, 67, 0.14);
+}
+
+.featured-news image {
+  width: 100%;
+  height: 100%;
+}
+
+.featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 70, 52, 0.03) 25%, rgba(14, 65, 46, 0.82) 100%);
+}
+
+.featured-copy {
+  position: absolute;
+  right: 24rpx;
+  bottom: 24rpx;
+  left: 24rpx;
+  color: #fff;
+}
+
+.featured-tag {
+  display: inline-block;
+  padding: 7rpx 13rpx;
+  border-radius: 20rpx;
+  font-size: 17rpx;
+  font-weight: 800;
+  color: #6c5414;
+  background: #f6d66d;
+}
+
+.featured-title {
+  margin-top: 13rpx;
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.featured-note {
+  margin-top: 8rpx;
+  overflow: hidden;
+  font-size: 19rpx;
+  color: #d8ece3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.news-list {
+  overflow: hidden;
+}
+
+.news-row {
+  min-height: 150rpx;
+  padding: 20rpx;
+  border-bottom: 2rpx solid #edf2ee;
+  display: flex;
+  align-items: center;
+}
+
+.news-row:last-child {
+  border-bottom: 0;
+}
+
+.news-date {
+  flex: none;
+  width: 78rpx;
+  height: 86rpx;
+  margin-right: 16rpx;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #e3f2e9;
+}
+
+.news-date view {
+  font-size: 20rpx;
+  font-weight: 900;
+  color: #267755;
+}
+
+.news-date text {
+  margin-top: 7rpx;
+  font-size: 16rpx;
+  color: #71877c;
+}
+
+.news-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.news-title {
+  overflow: hidden;
+  font-size: 23rpx;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.news-summary {
+  margin-top: 9rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 18rpx;
+  line-height: 1.45;
+  color: #7a8c83;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.news-arrow {
+  flex: none;
+  margin-left: 10rpx;
+  font-size: 35rpx;
+  color: #9aaba2;
+}

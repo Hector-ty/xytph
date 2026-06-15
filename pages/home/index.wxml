@@ -1,0 +1,242 @@
+<app-nav></app-nav>
+<view class="home-page">
+  <view class="scene-sky">
+    <view class="cloud-mass cloud-mass-one"></view>
+    <view class="cloud-mass cloud-mass-two"></view>
+    <view class="cloud-mass cloud-mass-three"></view>
+    <view class="wind-line wind-line-one"></view>
+    <view class="wind-line wind-line-two"></view>
+  </view>
+  <image class="scene-building" src="/assets/brand/campus-building-home.jpg" mode="aspectFill"></image>
+  <view class="scene-green">
+    <view class="green-hill green-hill-one"></view>
+    <view class="green-hill green-hill-two"></view>
+  </view>
+  <view class="scene-blend scene-blend-sky"></view>
+  <view class="scene-blend scene-blend-green"></view>
+
+  <view class="safe-top"></view>
+
+  <view class="home-topbar">
+    <view class="brand-lockup">
+      <image class="brand-mark" src="/assets/brand/action-logo.jpg" mode="aspectFill"></image>
+      <view>
+        <view class="brand-name">校园碳普惠</view>
+        <view class="brand-campus">内蒙古大学校园低碳日</view>
+      </view>
+    </view>
+    <view class="activity-chip">进行中</view>
+  </view>
+
+  <view class="status-row">
+    <view class="user-card" bindtap="goTarget" data-route="/pages/profile/index">
+      <image class="user-avatar" src="/assets/brand/xiaoshan.png" mode="aspectFit"></image>
+      <view class="user-copy">
+        <view class="user-name" style="position: relative; left: -43rpx; top: -4rpx">{{user.name}}</view>
+        <view class="user-meta" style="position: relative; left: -8rpx; top: 2rpx">{{userMetaText}}</view>
+      </view>
+      <view class="card-arrow">›</view>
+    </view>
+
+    <view
+      class="air-card"
+      bindtap="goWeather"
+      hover-class="air-card-hover"
+      style="position: relative; left: 10rpx; top: 8rpx; width: 166rpx; height: 72rpx; display: flex; box-sizing: border-box"
+    >
+      <view class="air-ring">
+        <view class="air-value">{{weatherCard.aqi}}</view>
+        <view class="air-grade">{{weatherCard.grade}}</view>
+      </view>
+      <view class="air-copy">
+        <view class="air-label-row">
+          <image class="air-weather-icon" src="{{weatherCard.icon}}" mode="aspectFit"></image>
+          <view class="micro-label">空气指数</view>
+        </view>
+        <view class="air-note">{{weatherCard.note}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="quick-nav">
+    <view
+      class="quick-item"
+      wx:for="{{quickLinks}}"
+      wx:key="title"
+      bindtap="goTarget"
+      data-route="{{item.route}}"
+      data-tab="{{item.tab}}"
+    >
+      <view class="quick-icon" style="background: {{item.color}}">{{item.icon}}</view>
+      <view class="quick-title">{{item.title}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!isParticipantHome}}" class="role-home-panel">
+    <view class="role-home-header">
+      <view>
+        <view class="role-home-title">{{roleHomeTitle}}</view>
+        <view class="role-home-subtitle">{{roleHomeSubtitle}}</view>
+      </view>
+      <view class="role-home-badge">{{roleHomeMode == 'admin' ? '管理' : '现场'}}</view>
+    </view>
+
+    <view class="role-summary-grid">
+      <view class="role-summary-card" wx:for="{{roleSummaryCards}}" wx:key="label">
+        <view class="role-summary-label">{{item.label}}</view>
+        <view class="role-summary-value">{{item.value}}</view>
+      </view>
+    </view>
+
+    <scroll-view scroll-y class="role-actions-scroll">
+      <view class="role-actions-grid">
+        <view
+          class="role-action"
+          wx:for="{{roleHomeActions}}"
+          wx:key="id"
+          bindtap="goTarget"
+          data-route="{{item.route}}"
+        >
+          <view class="role-action-icon" style="background: {{item.color}}">{{item.icon}}</view>
+          <view class="role-action-copy">
+            <view class="role-action-title">{{item.title}}</view>
+            <view class="role-action-note">{{item.note}}</view>
+          </view>
+          <view class="role-action-arrow">›</view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="role-home-notice">{{roleHomeNotice}}</view>
+  </view>
+
+  <button wx:if="{{isParticipantHome}}" class="checkin-button {{user.checkedIn ? 'checked' : ''}}" bindtap="handleCheckIn" style="width: 189rpx; display: flex; box-sizing: border-box; left: 450rpx; top: 366rpx; height: 74rpx; position: absolute">
+    <view class="checkin-icon" style="position: relative; left: 8rpx; top: 0rpx">{{user.checkedIn ? '✓' : '签'}}</view>
+    <view>
+      <image
+        wx:if="{{!user.checkedIn}}"
+        class="checkin-title-art"
+        src="{{checkInWordArt}}"
+        mode="heightFix"
+       style="width: 147rpx; height: 43rpx; display: block; box-sizing: border-box; position: relative; left: 12rpx; top: 0rpx"></image>
+      <view wx:else class="checkin-title" style="width: 99rpx; height: 33rpx; display: block; box-sizing: border-box; position: relative; left: 16rpx; top: 2rpx">今日已签到</view>
+      <view class="checkin-note" style="position: relative; left: 20rpx; top: 0rpx">{{user.checkedIn ? '连续第 ' + user.streak + ' 天' : '领取 3 积分'}}</view>
+    </view>
+  </button>
+
+  <view wx:if="{{isParticipantHome}}" class="campus-stage" style="height: 402rpx; display: block; box-sizing: border-box; left: 335rpx; top: 637rpx; position: absolute">
+    <view class="campus-sign">
+      <view class="campus-sign-small">绿色校园行动站</view>
+      <view class="campus-sign-title">内蒙古大学</view>
+    </view>
+    <image class="mascot mascot-shan" src="/assets/brand/xiaoshan.png" mode="aspectFit" style="position: absolute; left: -3rpx; top: 251rpx"></image>
+    <image class="mascot mascot-shui" src="/assets/brand/xiaoshui.png" mode="aspectFit" style="position: absolute; left: 293rpx; top: 254rpx"></image>
+  </view>
+
+  <view wx:if="{{isParticipantHome}}" class="action-stage">
+    <view class="task-column">
+      <view class="task-heading">
+        <view class="task-calendar">
+          <view class="calendar-top"></view>
+          <view class="calendar-check">✓</view>
+        </view>
+        <view>
+          <view class="task-heading-title">每日任务</view>
+          <view class="task-heading-note">{{completedCount}}/5 专区参与</view>
+        </view>
+      </view>
+
+      <view class="task-path">
+        <view
+          class="task-pill {{item.done >= item.total ? 'task-pill-complete' : ''}}"
+          wx:for="{{zones}}"
+          wx:key="code"
+          bindtap="goZone"
+          data-zone="{{item.code}}"
+        >
+          <view class="task-node" style="color: {{item.color}}; background: {{item.pale}}">
+            {{item.icon}}
+          </view>
+          <view class="task-copy">
+            <image
+              wx:if="{{item.wordArt}}"
+              class="task-name-art"
+              src="{{item.wordArt}}"
+              mode="aspectFit"
+            ></image>
+            <view wx:else class="task-name">{{item.name}}</view>
+          </view>
+          <view class="task-progress">{{item.done}}/{{item.total}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="feature-cluster" style="position: relative; left: 1rpx; top: 0rpx">
+      <view
+        class="feature-mini feature-mini-class"
+        bindtap="goTarget"
+        data-route="/pages/quiz/index"
+       style="position: absolute; left: 172rpx; top: 152rpx">
+        <view class="mini-leaf"></view>
+        <view class="mini-icon">知</view>
+        <view class="mini-title">低碳课堂</view>
+      </view>
+      <view
+        class="feature-mini feature-mini-map"
+        bindtap="goTarget"
+        data-route="/pages/campus-map/index"
+       style="position: absolute; left: 37rpx; top: 322rpx">
+        <view class="mini-leaf"></view>
+        <view class="mini-icon">图</view>
+        <view class="mini-title">校园地图</view>
+      </view>
+      <view
+        class="feature-mini feature-mini-card"
+        bindtap="goTarget"
+        data-route="/pages/cards/index"
+       style="position: absolute; left: 35rpx; top: 547rpx">
+        <view class="mini-leaf"></view>
+        <view class="mini-icon">卡</view>
+        <view class="mini-title">校园打卡</view>
+      </view>
+
+      <view
+        class="feature-major feature-major-shop"
+        bindtap="goTarget"
+        data-tab="/pages/rewards/index"
+       style="position: absolute; left: 199rpx; top: 291rpx">
+        <view class="major-sun"></view>
+        <view class="major-canopy canopy-one"></view>
+        <view class="major-canopy canopy-two"></view>
+        <view class="major-hill"></view>
+        <view class="major-icon" style="position: relative; left: 0rpx; top: -24rpx">商</view>
+        <view class="major-title">普惠商城</view>
+        <view class="major-note">积分换好礼</view>
+      </view>
+      <image
+        class="major-word-art major-word-shop-art"
+        src="/assets/brand/word-art-shop.png"
+        mode="aspectFit"
+      ></image>
+
+      <view
+        class="feature-major feature-major-rank"
+        bindtap="goTarget"
+        data-tab="/pages/rankings/index"
+       style="position: absolute; left: 196rpx; top: 493rpx">
+        <view class="major-sun"></view>
+        <view class="rank-tree tree-one" style="position: absolute; left: 109rpx; top: 64rpx"></view>
+        <view class="rank-tree tree-two"></view>
+        <view class="major-hill"></view>
+        <view class="major-icon" style="position: relative; left: 0rpx; top: -18rpx">榜</view>
+        <view class="major-title">减碳排行榜</view>
+        <view class="major-note">看看我的名次</view>
+      </view>
+      <image
+        class="major-word-art major-word-rank-art"
+        src="/assets/brand/word-art-rank.png"
+        mode="aspectFit"
+       style="width: 250rpx; display: block; box-sizing: border-box; left: 152rpx; top: 552rpx; position: absolute"></image>
+    </view>
+  </view>
+</view>

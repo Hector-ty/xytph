@@ -1,0 +1,52 @@
+<app-nav></app-nav>
+<view class="page-shell profile-page">
+  <view class="safe-top"></view>
+  <view class="topbar">
+    <button class="back-button" bindtap="goBack">‹</button>
+    <view class="topbar-title">身份资料</view>
+    <view class="topbar-space"></view>
+  </view>
+
+  <view class="page-content">
+    <view class="profile-heading panel">
+      <view class="profile-heading-avatar">
+        <image src="/assets/brand/xiaoshan.png" mode="aspectFit"></image>
+      </view>
+      <view>
+        <view class="profile-heading-title">校园低碳身份</view>
+        <view class="profile-heading-note">资料用于活动统计和学院榜单</view>
+      </view>
+    </view>
+
+    <view class="form-panel panel">
+      <view class="form-row">
+        <view class="form-label">昵称</view>
+        <input class="form-input" value="{{name}}" maxlength="12" bindinput="onNameInput" placeholder="请输入昵称"></input>
+      </view>
+      <picker class="form-row-picker" range="{{colleges}}" value="{{collegeIndex}}" bindchange="onCollegeChange">
+        <view class="form-row form-row-select">
+          <view class="form-label">学院</view>
+          <view class="form-picker">
+            <view class="picker-value">{{colleges[collegeIndex]}}</view>
+            <text>›</text>
+          </view>
+        </view>
+      </picker>
+      <view class="form-row">
+        <view class="form-label">学号</view>
+        <view class="form-readonly">{{user.studentNo}}</view>
+      </view>
+      <view class="form-row">
+        <view class="form-label">低碳称号</view>
+        <view class="form-readonly">{{user.badge}}</view>
+      </view>
+    </view>
+
+    <view class="privacy-note">
+      <view class="privacy-icon">隐</view>
+      <view>榜单和公开展示只使用昵称或脱敏信息，不展示完整学号和个人隐私。</view>
+    </view>
+
+    <button class="primary-button save-button" bindtap="save">保存资料</button>
+  </view>
+</view>

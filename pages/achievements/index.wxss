@@ -1,0 +1,153 @@
+.achievement-page {
+  background: #f5f8f4;
+}
+
+.achievement-hero {
+  position: relative;
+  height: 480rpx;
+  overflow: hidden;
+  color: #fff;
+  background: #197f5c;
+}
+
+.achievement-hero::after {
+  content: "";
+  position: absolute;
+  right: -120rpx;
+  bottom: -130rpx;
+  width: 440rpx;
+  height: 280rpx;
+  border: 18rpx solid rgba(251, 217, 103, 0.16);
+  border-radius: 100% 0 100% 0;
+  transform: rotate(-20deg);
+}
+
+.achievement-topbar {
+  position: relative;
+  z-index: 3;
+  height: 88rpx;
+  padding: 0 190rpx 0 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.achievement-title {
+  font-size: 31rpx;
+  font-weight: 900;
+}
+
+.achievement-count {
+  padding: 9rpx 15rpx;
+  border-radius: 24rpx;
+  font-size: 19rpx;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.achievement-hero-copy {
+  position: relative;
+  z-index: 2;
+  width: 62%;
+  padding: 70rpx 0 0 36rpx;
+}
+
+.achievement-hero-kicker {
+  display: inline-block;
+  padding: 8rpx 14rpx;
+  border-radius: 22rpx;
+  font-size: 18rpx;
+  font-weight: 800;
+  color: #765b15;
+  background: #f8dc72;
+}
+
+.achievement-hero-title {
+  margin-top: 18rpx;
+  font-size: 38rpx;
+  line-height: 1.35;
+  font-weight: 900;
+}
+
+.achievement-mascot {
+  position: absolute;
+  right: 8rpx;
+  bottom: -110rpx;
+  z-index: 2;
+  width: 270rpx;
+  height: 410rpx;
+  transform: rotate(5deg);
+}
+
+.achievement-content {
+  margin-top: -24rpx;
+  border-radius: 28rpx 28rpx 0 0;
+  background: #f5f8f4;
+}
+
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16rpx;
+}
+
+.achievement-card {
+  min-height: 300rpx;
+  padding: 25rpx 18rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.achievement-card.locked {
+  filter: grayscale(0.75);
+  opacity: 0.58;
+}
+
+.badge-orbit {
+  width: 118rpx;
+  height: 118rpx;
+  border: 7rpx solid;
+  border-top-color: #f4ce5d !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-core {
+  width: 82rpx;
+  height: 82rpx;
+  border: 6rpx solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 900;
+  color: #fff;
+  box-shadow: 0 6rpx 14rpx rgba(40, 95, 72, 0.15);
+}
+
+.badge-name {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.badge-note {
+  min-height: 48rpx;
+  margin-top: 8rpx;
+  font-size: 18rpx;
+  line-height: 1.4;
+  color: #7a8d83;
+}
+
+.badge-status {
+  margin-top: 12rpx;
+  padding: 7rpx 14rpx;
+  border-radius: 20rpx;
+  font-size: 16rpx;
+  color: #287758;
+  background: #e3f2e9;
+}

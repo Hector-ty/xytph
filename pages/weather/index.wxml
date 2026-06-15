@@ -1,0 +1,149 @@
+<app-nav></app-nav>
+<view class="page-shell weather-page">
+  <view class="safe-top"></view>
+
+  <view class="page-content weather-content">
+    <view wx:if="{{loading && !weather}}" class="weather-loading panel">
+      <image class="weather-loading-icon" src="{{weatherIcons.cloud}}" mode="aspectFit"></image>
+      <view class="weather-loading-title">正在按所在校区获取天气</view>
+      <view class="weather-loading-note">会同时读取天气、空气质量和适合的绿色出行建议</view>
+    </view>
+
+    <view wx:elif="{{errorMessage && !weather}}" class="weather-error panel" style="position: relative; left: 0rpx; top: 91rpx">
+      <image class="weather-error-icon" src="{{weatherIcons.umbrella}}" mode="aspectFit"></image>
+      <view class="weather-error-title">{{errorMessage}}</view>
+      <view class="weather-error-note">
+        请检查网络连接或云函数部署状态后再试一次。
+      </view>
+      <button
+        class="secondary-button weather-error-button"
+        bindtap="handleErrorAction"
+      >
+        重新获取
+      </button>
+    </view>
+
+    <block wx:if="{{weather}}">
+      <view class="weather-hero">
+        <image class="weather-hero-bg" src="/assets/brand/campus-building-home.jpg" mode="aspectFill"></image>
+        <view class="weather-hero-overlay"></view>
+        <image class="weather-hero-deco weather-hero-deco-left" src="{{weatherIcons.seedling}}" mode="aspectFit"></image>
+        <image class="weather-hero-deco weather-hero-deco-right" src="{{weatherIcons.cloud}}" mode="aspectFit"></image>
+
+        <view class="weather-hero-top">
+          <view>
+            <view class="weather-hero-kicker">校区天气</view>
+            <view class="weather-hero-location">{{weather.location.label}}</view>
+          </view>
+          <button class="weather-refresh-button" bindtap="handleRefresh">
+            {{refreshing ? '刷新中' : '刷新'}}
+          </button>
+        </view>
+
+        <view class="weather-hero-main">
+          <image class="weather-main-icon" src="{{weather.summary.icon}}" mode="aspectFit"></image>
+          <view class="weather-main-copy">
+            <view class="weather-main-temp">{{weather.current.temperature}}°</view>
+            <view class="weather-main-label">{{weather.current.weatherLabel}}</view>
+            <view class="weather-main-desc">{{weather.current.weatherDescription}}</view>
+          </view>
+        </view>
+
+        <view class="weather-hero-bottom">
+          <view class="weather-aqi-pill" style="background: {{weather.air.color}}">
+            AQI {{weather.air.aqi}} · {{weather.air.level}}
+          </view>
+          <view class="weather-update-text">
+            {{weather.stale ? '当前显示最近一次缓存天气' : '数据已按所在校区更新'}}
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{errorMessage}}" class="weather-inline-note">
+        {{errorMessage}}
+      </view>
+
+      <view class="weather-badge-row">
+        <view class="weather-badge-card" wx:for="{{weather.heroBadges}}" wx:key="title">
+          <image class="weather-badge-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="weather-badge-title">{{item.title}}</view>
+          <view class="weather-badge-value">{{item.value}}</view>
+        </view>
+      </view>
+
+      <view class="section-title-row">
+        <view class="section-title">未来几小时</view>
+        <view class="section-note">看天气怎么变化</view>
+      </view>
+
+      <scroll-view class="hourly-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+        <view class="hourly-row">
+          <view class="hourly-card panel" wx:for="{{weather.hourly}}" wx:key="time">
+            <view class="hourly-time">{{item.time}}</view>
+            <image class="hourly-icon" src="{{item.icon}}" mode="aspectFit"></image>
+            <view class="hourly-temp">{{item.temperature}}°</view>
+            <view class="hourly-label">{{item.label}}</view>
+            <view class="hourly-rain">降水 {{item.precipitationProbability}}%</view>
+          </view>
+        </view>
+      </scroll-view>
+
+      <view class="section-title-row">
+        <view class="section-title">空气质量</view>
+        <view class="section-note">和出行体验直接相关</view>
+      </view>
+
+      <view class="air-panel panel">
+        <view class="air-panel-head">
+          <view>
+            <view class="air-panel-title">空气指数 {{weather.air.aqi}}</view>
+            <view class="air-panel-summary">{{weather.air.summary}}</view>
+          </view>
+          <view class="air-panel-grade" style="color: {{weather.air.color}}; border-color: {{weather.air.color}}">
+            {{weather.air.level}}
+          </view>
+        </view>
+
+        <view class="air-metrics-grid">
+          <view class="air-metric" wx:for="{{weather.airMetrics}}" wx:key="title">
+            <view class="air-metric-title">{{item.title}}</view>
+            <view class="air-metric-value">{{item.value}}</view>
+            <view class="air-metric-unit">{{item.unit}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="section-title-row">
+        <view class="section-title">今天怎么出行</view>
+        <view class="section-note">把天气变成低碳策略</view>
+      </view>
+
+      <view class="tips-panel">
+        <view class="tip-card panel" wx:for="{{weather.travelTips}}" wx:key="title">
+          <image class="tip-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="tip-copy">
+            <view class="tip-title">{{item.title}}</view>
+            <view class="tip-description">{{item.description}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="section-title-row">
+        <view class="section-title">天气和碳普惠</view>
+        <view class="section-note">不只是“看天”，也在“看行为”</view>
+      </view>
+
+      <view class="relation-grid">
+        <view class="relation-card panel" wx:for="{{weather.carbonLinks}}" wx:key="title">
+          <image class="relation-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <view class="relation-title">{{item.title}}</view>
+          <view class="relation-description">{{item.description}}</view>
+        </view>
+      </view>
+
+      <view class="weather-source-note">
+        天气数据来自 Open-Meteo，图标来自 OpenMoji。
+      </view>
+    </block>
+  </view>
+</view>

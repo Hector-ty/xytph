@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "app-nav": "/shared/app-nav/index"
+  }
+}

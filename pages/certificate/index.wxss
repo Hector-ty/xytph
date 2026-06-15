@@ -1,0 +1,134 @@
+.certificate-page {
+  background: linear-gradient(180deg, #deefe5 0%, #f3f5e8 100%);
+}
+
+.certificate-topbar {
+  height: 96rpx;
+}
+
+.topbar-space {
+  width: 64rpx;
+}
+
+.certificate {
+  padding: 18rpx;
+  border-radius: 10rpx;
+  background: #fff9e9;
+  box-shadow: 0 18rpx 38rpx rgba(51, 91, 68, 0.16);
+}
+
+.certificate-border {
+  min-height: 850rpx;
+  padding: 45rpx 38rpx;
+  border: 5rpx double #2b7c5a;
+  position: relative;
+  text-align: center;
+}
+
+.certificate-border::before,
+.certificate-border::after {
+  content: "";
+  position: absolute;
+  width: 95rpx;
+  height: 95rpx;
+  border: 7rpx solid #dca335;
+  border-radius: 100% 0 100% 0;
+}
+
+.certificate-border::before {
+  top: 18rpx;
+  left: 18rpx;
+}
+
+.certificate-border::after {
+  right: 18rpx;
+  bottom: 18rpx;
+  transform: rotate(180deg);
+}
+
+.certificate-logo {
+  width: 150rpx;
+  height: 130rpx;
+  border-radius: 12rpx;
+}
+
+.certificate-kicker {
+  margin-top: 20rpx;
+  font-size: 15rpx;
+  color: #728277;
+}
+
+.certificate-title {
+  margin-top: 12rpx;
+  font-size: 40rpx;
+  font-weight: 900;
+  color: #1f7151;
+}
+
+.certificate-line {
+  width: 140rpx;
+  height: 4rpx;
+  margin: 22rpx auto 35rpx;
+  background: #d7a33b;
+}
+
+.certificate-copy {
+  font-size: 21rpx;
+  color: #6d7c72;
+}
+
+.certificate-name {
+  display: inline-block;
+  margin-top: 18rpx;
+  padding: 0 35rpx 8rpx;
+  border-bottom: 3rpx solid #d6a23b;
+  font-size: 40rpx;
+  font-weight: 900;
+  color: #244f3d;
+}
+
+.certificate-body {
+  margin-top: 35rpx;
+  font-size: 22rpx;
+  line-height: 2;
+  text-align: left;
+  text-indent: 2em;
+  color: #53665b;
+}
+
+.certificate-meta {
+  margin-top: 55rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 22rpx;
+  font-size: 19rpx;
+  line-height: 1.6;
+  text-align: right;
+  color: #526a5d;
+}
+
+.certificate-meta text {
+  font-size: 17rpx;
+  color: #819087;
+}
+
+.certificate-seal {
+  width: 100rpx;
+  height: 100rpx;
+  border: 6rpx double #d4634d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  line-height: 1.2;
+  font-weight: 900;
+  text-align: center;
+  color: #d4634d;
+  transform: rotate(-12deg);
+}
+
+.certificate-button {
+  margin-top: 28rpx;
+}

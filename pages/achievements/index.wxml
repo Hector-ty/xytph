@@ -1,0 +1,35 @@
+<app-nav></app-nav>
+<view class="page-shell achievement-page">
+  <view class="achievement-hero">
+    <view class="safe-top"></view>
+    <view class="achievement-topbar">
+      <button class="back-button" bindtap="goBack">‹</button>
+      <view class="achievement-title">我的成就</view>
+      <view class="achievement-count">{{unlocked}}/{{achievements.length}}</view>
+    </view>
+    <view class="achievement-hero-copy">
+      <view class="achievement-hero-kicker">低碳成长册</view>
+      <view class="achievement-hero-title">每一个好习惯，都会长成一枚徽章</view>
+    </view>
+    <image class="achievement-mascot" src="/assets/brand/xiaoshan.png" mode="aspectFit"></image>
+  </view>
+
+  <view class="page-content achievement-content">
+    <view class="achievement-grid">
+      <view
+        class="achievement-card panel {{item.unlocked ? '' : 'locked'}}"
+        wx:for="{{achievements}}"
+        wx:key="id"
+        bindtap="showAchievement"
+        data-id="{{item.id}}"
+      >
+        <view class="badge-orbit" style="border-color: {{item.color}}">
+          <view class="badge-core" style="background: {{item.color}}">{{item.icon}}</view>
+        </view>
+        <view class="badge-name">{{item.name}}</view>
+        <view class="badge-note">{{item.note}}</view>
+        <view class="badge-status">{{item.unlocked ? '已解锁' : '未解锁'}}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Step Challenge Result Preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 430px;
+      height: 932px;
+      margin: 0;
+      overflow: hidden;
+      font-family: "Microsoft YaHei", sans-serif;
+      font-weight: 700;
+      color: #17382b;
+      background: #eaf6ee;
+    }
+    .page {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .map {
+      position: relative;
+      flex: 1 1 0;
+      height: auto;
+      min-height: 378px;
+      overflow: hidden;
+      background:
+        linear-gradient(34deg, transparent 0 45%, #fff 45% 48%, transparent 48%),
+        linear-gradient(124deg, transparent 0 44%, #fff 44% 48%, transparent 48%),
+        linear-gradient(0deg, rgba(201, 224, 235, 0.55) 0 18%, transparent 18% 34%, rgba(201, 224, 235, 0.55) 34% 50%, transparent 50%),
+        #eef2e8;
+    }
+    .poi {
+      position: absolute;
+      font-size: 20px;
+      font-weight: 900;
+      color: rgba(130, 77, 42, 0.9);
+    }
+    .poi.one { left: 26px; top: 190px; }
+    .poi.two { right: 45px; top: 210px; color: rgba(31, 78, 118, 0.85); }
+    .poi.three { left: 220px; top: 80px; color: rgba(90, 98, 95, 0.75); }
+    .nav {
+      position: absolute;
+      left: 14px;
+      right: 94px;
+      top: 54px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .back {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #159861;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      box-shadow: 0 4px 10px rgba(11, 86, 60, .22);
+    }
+    .nav-card {
+      flex: 1;
+      height: 36px;
+      border-radius: 12px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 4px 12px rgba(18, 75, 52, .12);
+    }
+    .nav-title { font-size: 20px; font-weight: 900; white-space: nowrap; }
+    .nav-campus {
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
+      text-align: right;
+      font-size: 13px;
+      color: #567669;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .route {
+      position: absolute;
+      left: 230px;
+      top: 190px;
+      width: 12px;
+      height: 125px;
+      border-radius: 999px;
+      background: #10b85c;
+      box-shadow: 0 0 0 4px rgba(255,255,255,.85);
+      transform: rotate(8deg);
+    }
+    .pin {
+      position: absolute;
+      left: 222px;
+      top: 165px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50% 50% 50% 8px;
+      background: #ef4e53;
+      transform: rotate(-45deg);
+    }
+    .layer {
+      flex: none;
+      min-height: 0;
+      padding: 8px 16px 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      background: #eaf6ee;
+    }
+    .card {
+      flex: none;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(38, 129, 88, 0.12);
+      border-radius: 13px;
+      background: #fbfef9;
+      box-shadow: 0 8px 20px rgba(18, 75, 52, 0.12);
+    }
+    .kicker {
+      font-size: 13px;
+      line-height: 1.2;
+      font-weight: 900;
+      color: #16875a;
+    }
+    .title {
+      margin-top: 4px;
+      font-size: 24px;
+      line-height: 1.1;
+      font-weight: 900;
+      color: #0e3a29;
+    }
+    .subtitle {
+      margin-top: 5px;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 800;
+      color: #405f52;
+    }
+    .hero {
+      margin-top: 12px;
+      display: flex;
+      gap: 6px;
+    }
+    .hero-item {
+      flex: 1;
+      min-height: 58px;
+      padding: 8px 4px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #e5f4e8;
+    }
+    .hero-value {
+      max-width: 100%;
+      overflow: hidden;
+      font-size: 17px;
+      line-height: 1.15;
+      font-weight: 900;
+      color: #087044;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .hero-label {
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #4f6c60;
+    }
+    .info {
+      margin-top: 10px;
+      padding: 6px 9px;
+      border-radius: 10px;
+      background: #eef7ee;
+    }
+    .row {
+      min-height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .label {
+      flex: none;
+      width: 72px;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 900;
+      color: #5e766b;
+    }
+    .value {
+      min-width: 0;
+      flex: 1;
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 900;
+      color: #103b2b;
+      text-align: right;
+      word-break: break-all;
+    }
+    .home {
+      width: 100%;
+      height: 48px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 48px;
+      font-weight: 900;
+      color: #fff;
+      background: #14995f;
+      box-shadow: 0 8px 18px rgba(18, 112, 76, 0.28);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="map">
+      <div class="nav">
+        <div class="back">‹</div>
+        <div class="nav-card">
+          <div class="nav-title">步数挑战</div>
+          <div class="nav-campus">内蒙古大学东校区</div>
+        </div>
+      </div>
+      <div class="poi one">熊家无二·韩式炸鸡</div>
+      <div class="poi two">中国移动</div>
+      <div class="poi three">11号楼</div>
+      <div class="route"></div>
+      <div class="pin"></div>
+    </div>
+    <div class="layer">
+      <div class="card">
+        <div class="kicker">绿色环保碳普惠</div>
+        <div class="title">本次健走完成</div>
+        <div class="subtitle">校园低碳出行记录已生成，继续积累绿色碳惠积分。</div>
+        <div class="hero">
+          <div class="hero-item"><div class="hero-value">15 m</div><div class="hero-label">路线距离</div></div>
+          <div class="hero-item"><div class="hero-value">00:18</div><div class="hero-label">挑战时长</div></div>
+          <div class="hero-item"><div class="hero-value">0</div><div class="hero-label">碳惠积分</div></div>
+        </div>
+        <div class="info">
+          <div class="row"><div class="label">所在校区</div><div class="value">内蒙古大学东校区</div></div>
+          <div class="row"><div class="label">微信步数</div><div class="value">0 步</div></div>
+          <div class="row"><div class="label">轨迹点数</div><div class="value">3 个</div></div>
+          <div class="row"><div class="label">开始时间</div><div class="value">06/10 01:26</div></div>
+          <div class="row"><div class="label">结束时间</div><div class="value">06/10 01:26</div></div>
+          <div class="row"><div class="label">起点坐标</div><div class="value">40.8156, 111.7002</div></div>
+          <div class="row"><div class="label">终点坐标</div><div class="value">40.8156, 111.7002</div></div>
+        </div>
+      </div>
+      <button class="home">返回首页</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<app-nav></app-nav>
+<view class="page-shell map-page">
+  <view class="safe-top"></view>
+  <view class="topbar map-topbar">
+    <button class="back-button" bindtap="goBack">‹</button>
+    <view>
+      <view class="topbar-title">校园地图</view>
+      <view class="topbar-subtitle">寻找低碳任务与服务点位</view>
+    </view>
+    <view class="map-count" style="position: relative; left: -231rpx; top: -10rpx">{{visibleLocations.length}} 个点位</view>
+  </view>
+
+  <view class="page-content map-content">
+    <scroll-view class="map-filters" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="map-filter-inner">
+        <button
+          class="{{selected === item ? 'active' : ''}}"
+          wx:for="{{filters}}"
+          wx:key="*this"
+          bindtap="selectFilter"
+          data-type="{{item}}"
+        >{{item}}</button>
+      </view>
+    </scroll-view>
+
+    <view class="campus-map panel">
+      <image class="map-building" src="{{mapImage}}" mode="aspectFit"></image>
+      <view class="map-hotspot-layer">
+        <view
+          class="map-hotspot"
+          wx:for="{{visibleLocations}}"
+          wx:key="id"
+          hover-class="map-hotspot-active"
+          bindtap="showLocation"
+          data-id="{{item.id}}"
+          style="left: {{item.hotLeft}}%; top: {{item.hotTop}}%; width: {{item.hotWidth}}%; height: {{item.hotHeight}}%;"
+        ></view>
+      </view>
+      <view
+        class="map-pin"
+        wx:for="{{visibleLocations}}"
+        wx:key="id"
+        bindtap="showLocation"
+        data-id="{{item.id}}"
+        style="left: {{item.left}}%; top: {{item.top}}%; background: {{item.color}}"
+      >
+        {{item.icon}}
+        <view class="map-pin-label">{{item.name}}</view>
+      </view>
+    </view>
+
+    <view class="section-title-row">
+      <view class="section-title">附近点位</view>
+      <view class="section-note">点击查看服务说明</view>
+    </view>
+
+    <view class="location-list panel">
+      <view class="location-row" wx:for="{{visibleLocations}}" wx:key="id" bindtap="showLocation" data-id="{{item.id}}">
+        <view class="location-icon" style="color: {{item.color}}; background: {{item.color}}1A">{{item.icon}}</view>
+        <view class="location-copy">
+          <view class="location-name">{{item.name}}</view>
+          <view class="location-note">{{item.note}}</view>
+        </view>
+        <view class="location-actions">
+          <view class="location-type">{{item.type}}</view>
+          <button class="location-nav" catchtap="navigateLocation" data-id="{{item.id}}">导航</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

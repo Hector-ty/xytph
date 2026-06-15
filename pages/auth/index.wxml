@@ -1,0 +1,175 @@
+<view class="auth-page auth-page-{{mode}}">
+  <view class="auth-bg">
+    <view class="auth-sun"></view>
+    <view class="auth-cloud auth-cloud-one"></view>
+    <view class="auth-cloud auth-cloud-two"></view>
+    <view class="auth-leaf auth-leaf-one"></view>
+    <view class="auth-leaf auth-leaf-two"></view>
+    <view class="auth-leaf auth-leaf-three"></view>
+    <view class="auth-hill auth-hill-one"></view>
+    <view class="auth-hill auth-hill-two"></view>
+  </view>
+
+  <view class="safe-top"></view>
+
+  <view class="auth-header">
+    <image class="auth-logo" src="/assets/brand/action-logo.jpg" mode="aspectFill"></image>
+    <view>
+      <view class="auth-title">校园碳普惠</view>
+      <view class="auth-subtitle">内蒙古大学校园低碳日</view>
+    </view>
+  </view>
+
+  <view class="auth-card auth-card-login" wx:if="{{mode === 'login'}}">
+    <view class="login-deco login-deco-sprout">
+      <view class="login-sprout-stem"></view>
+      <view class="login-sprout-leaf login-sprout-leaf-left"></view>
+      <view class="login-sprout-leaf login-sprout-leaf-right"></view>
+    </view>
+    <view class="login-deco login-deco-coin">
+      <view class="login-coin-leaf"></view>
+    </view>
+    <view class="login-deco login-deco-ring"></view>
+    <view class="auth-mode-row">
+      <view>
+        <view class="auth-mode-title">微信登录</view>
+        <view class="auth-mode-note" wx:if="{{selectedRoleLabel}}">当前以{{selectedRoleLabel}}身份登录。使用当前微信身份进入校园碳普惠。若尚未注册，将自动进入注册界面。</view>
+        <view class="auth-mode-note" wx:else>使用当前微信身份进入校园碳普惠。若尚未注册，将自动进入注册界面。</view>
+      </view>
+      <view class="auth-carbon-mark">
+        <view class="auth-carbon-leaf"></view>
+        <text>CO₂</text>
+      </view>
+    </view>
+    <button class="wechat-login-button" loading="{{loginLoading}}" bindtap="handleWechatLogin">
+      <view class="wechat-button-icon">
+        <view class="wechat-bubble wechat-bubble-main">
+          <view class="wechat-dot wechat-dot-one"></view>
+          <view class="wechat-dot wechat-dot-two"></view>
+        </view>
+        <view class="wechat-bubble wechat-bubble-sub">
+          <view class="wechat-dot wechat-dot-three"></view>
+          <view class="wechat-dot wechat-dot-four"></view>
+        </view>
+      </view>
+      <text>{{loginLoading ? '正在登录' : '微信一键登录'}}</text>
+    </button>
+    <button class="text-button" bindtap="showRegister">没有账号，先注册</button>
+    <button class="text-button identity-link-button" bindtap="showIdentity">切换身份</button>
+  </view>
+
+  <view class="auth-card auth-card-identity" wx:elif="{{mode === 'identity'}}">
+    <view class="auth-mode-title">切换身份</view>
+    <view class="auth-mode-note">请选择登录身份，返回登录界面后再进行微信一键登录。</view>
+
+    <view class="identity-grid">
+      <button
+        class="identity-option {{role === item.key ? 'identity-option-active' : ''}}"
+        wx:for="{{roles}}"
+        wx:key="key"
+        bindtap="selectLoginRole"
+        data-role="{{item.key}}"
+      >
+        <view class="identity-option-icon">{{item.abbr}}</view>
+        <view class="identity-option-label">{{item.label}}</view>
+      </button>
+    </view>
+
+    <button class="text-button" bindtap="showLogin">返回登录</button>
+  </view>
+
+  <view class="auth-card auth-card-register" wx:else>
+    <view class="auth-mode-title">账号注册</view>
+    <view class="auth-mode-note">请选择身份并完善资料，注册成功后会绑定当前微信身份。</view>
+
+    <view class="role-tabs">
+      <button
+        class="role-tab {{role === item.key ? 'role-tab-active' : ''}}"
+        wx:for="{{roles}}"
+        wx:key="key"
+        bindtap="selectRole"
+        data-role="{{item.key}}"
+      >
+        {{item.label}}
+      </button>
+    </view>
+
+    <view class="form-row">
+      <view class="form-label">姓名</view>
+      <input class="form-input" value="{{name}}" placeholder="请输入姓名" bindinput="onNameInput"></input>
+    </view>
+
+    <block wx:if="{{role !== 'teacher'}}">
+      <picker class="form-row-picker" range="{{colleges}}" value="{{collegeIndex}}" bindchange="onCollegeChange">
+        <view class="form-row">
+          <view class="form-label">学院</view>
+          <view class="form-picker">
+            <view class="picker-value">{{colleges[collegeIndex]}}</view>
+          </view>
+        </view>
+      </picker>
+    </block>
+
+    <block wx:if="{{role === 'student'}}">
+      <view class="form-row">
+        <view class="form-label">学号</view>
+        <input class="form-input" value="{{studentNo}}" placeholder="请输入学号" bindinput="onStudentNoInput"></input>
+      </view>
+    </block>
+
+    <block wx:elif="{{role === 'staff' || role === 'admin'}}">
+      <view class="form-row">
+        <view class="form-label">工号</view>
+        <input class="form-input" value="{{staffNo}}" placeholder="请输入工号" bindinput="onStaffNoInput"></input>
+      </view>
+      <view class="form-row">
+        <view class="form-label">邀请码</view>
+        <input class="form-input" password="true" maxlength="8" value="{{inviteCode}}" placeholder="请输入8位邀请码" bindinput="onInviteInput"></input>
+      </view>
+    </block>
+
+    <view class="form-row">
+      <view class="form-label">手机号</view>
+      <input class="form-input" type="number" maxlength="11" value="{{phone}}" placeholder="请输入手机号" bindinput="onPhoneInput"></input>
+    </view>
+
+    <button class="submit-button" loading="{{submitting}}" bindtap="submit">
+      {{submitting ? '正在进入' : '注册并进入'}}
+    </button>
+    <button class="text-button" bindtap="showLogin">已有账号，返回登录</button>
+  </view>
+
+  <view class="auth-story" wx:if="{{mode === 'login'}}">
+    <view class="story-board">
+      <view class="story-route" style="position: absolute; left: 135rpx; top: 329rpx">
+        <view class="route-dot route-dot-left"></view>
+        <view class="route-dot route-dot-right"></view>
+      </view>
+      <view class="story-tree story-tree-left">
+        <view class="tree-crown" style="position: absolute; left: -54rpx; top: -56rpx"></view>
+        <view class="tree-trunk" style="position: absolute; left: -41rpx; top: -6rpx"></view>
+      </view>
+      <view class="story-tree story-tree-right">
+        <view class="tree-crown" style="position: absolute; left: 37rpx; top: -66rpx"></view>
+        <view class="tree-trunk" style="position: absolute; left: 60rpx; top: -18rpx"></view>
+      </view>
+      <view class="story-token story-token-bike" style="position: absolute; left: 420rpx; top: 299rpx">
+        <view class="bike-icon">
+          <view class="bike-wheel bike-wheel-left"></view>
+          <view class="bike-wheel bike-wheel-right"></view>
+          <view class="bike-frame"></view>
+        </view>
+      </view>
+      <view class="story-token story-token-carbon" style="position: absolute; left: 202rpx; top: 331rpx">
+        <view class="story-token-leaf"></view>
+      </view>
+      <image class="auth-mascot mascot-xiaoshan" src="/assets/brand/xiaoshan.png" mode="aspectFit" style="position: absolute; left: 95rpx; top: 243rpx"></image>
+      <image class="auth-mascot mascot-xiaoshui" src="/assets/brand/xiaoshui.png" mode="aspectFit" style="position: absolute; left: 504rpx; top: 214rpx"></image>
+    </view>
+  </view>
+
+  <view class="auth-mascots" wx:else>
+    <image class="auth-mascot" src="/assets/brand/xiaoshan.png" mode="aspectFit"></image>
+    <image class="auth-mascot" src="/assets/brand/xiaoshui.png" mode="aspectFit"></image>
+  </view>
+</view>

@@ -1,0 +1,26 @@
+{
+  "paragraphs": 235,
+  "tables": 17,
+  "sections": 1,
+  "page_width_inches": 8.5,
+  "page_height_inches": 11.0,
+  "margins_inches": {
+    "top": 1.0,
+    "right": 1.0,
+    "bottom": 1.0,
+    "left": 1.0
+  },
+  "table_geometry_issues": [],
+  "required_text": {
+    "锁定业务规则": true,
+    "API 统一契约": true,
+    "数据模型与约束": true,
+    "可直接发送给 AI 的主提示词": true,
+    "测试与验收清单": true
+  },
+  "contains_numbering_xml": true,
+  "contains_header_xml": true,
+  "contains_footer_xml": true,
+  "pdf_pages": 24,
+  "rendered_png_pages": 24
+}

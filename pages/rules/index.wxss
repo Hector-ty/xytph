@@ -1,0 +1,36 @@
+.rules-page {
+  min-height: 100vh;
+  background: #eef7ef;
+}
+
+.rules-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  height: 88rpx;
+  padding: 0 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2f8f46;
+  color: #fff;
+}
+
+.rules-title {
+  font-size: 31rpx;
+  font-weight: 900;
+}
+
+.rules-spacer {
+  width: 64rpx;
+}
+
+.rules-image-wrap {
+  padding-bottom: 28rpx;
+  background: #eef7ef;
+}
+
+.rules-image {
+  width: 100%;
+  display: block;
+}

@@ -1,0 +1,38 @@
+<app-nav></app-nav>
+<view class="page-shell cards-page">
+  <view class="cards-hero">
+    <view class="safe-top"></view>
+    <view class="cards-topbar">
+      <button class="back-button" bindtap="goBack">‹</button>
+      <view class="cards-title">校园集卡</view>
+      <view class="cards-count">{{unlocked}}/6</view>
+    </view>
+    <view class="cards-hero-copy">
+      <view class="cards-kicker">绿色校园图鉴</view>
+      <view class="cards-hero-title">走过校园，也收藏每一处低碳风景</view>
+      <button class="draw-button" bindtap="drawCard">每日抽卡</button>
+    </view>
+    <image class="cards-building" src="/assets/brand/campus-building.jpg" mode="aspectFill"></image>
+  </view>
+
+  <view class="page-content cards-content">
+    <view class="cards-grid">
+      <view
+        class="campus-card {{item.unlocked ? '' : 'locked'}}"
+        wx:for="{{cards}}"
+        wx:key="id"
+        bindtap="showCard"
+        data-id="{{item.id}}"
+        style="background: {{item.color}}"
+      >
+        <view class="card-number">IMU 0{{index + 1}}</view>
+        <view class="card-icon">{{item.unlocked ? item.icon : '?'}}</view>
+        <view class="card-copy">
+          <view class="card-name">{{item.unlocked ? item.name : '待解锁地标'}}</view>
+          <view class="card-note">{{item.unlocked ? item.note : '完成任务发现惊喜'}}</view>
+        </view>
+        <view class="card-leaf"></view>
+      </view>
+    </view>
+  </view>
+</view>

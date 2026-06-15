@@ -1,0 +1,135 @@
+<app-nav id="stepNav"></app-nav>
+<view class="step-page">
+  <view class="step-stage {{challengeEnded ? 'step-stage-ended' : ''}}">
+    <map
+      id="campusMap"
+      class="campus-live-map"
+      longitude="{{longitude}}"
+      latitude="{{latitude}}"
+      scale="{{scale}}"
+      markers="{{markers}}"
+      polyline="{{polyline}}"
+      include-points="{{mapIncludePoints}}"
+      show-location
+    ></map>
+  </view>
+
+  <view class="steps-dock" wx:if="{{!challengeEnded}}">
+    <view class="steps-dock-head">
+      <view>
+        <view class="steps-label">微信运动步数</view>
+        <view class="steps-sync">同步时间 {{syncedAtText}}</view>
+      </view>
+      <button class="sync-button" bindtap="syncSteps" loading="{{loadingSteps}}" style="width: 100rpx; display: flex; box-sizing: border-box; left: 195rpx; top: 2rpx; position: relative">同步</button>
+    </view>
+
+    <view class="steps-main">
+      <view class="steps-count">
+        <view class="steps-value {{stepsJumping ? 'steps-value-jump' : ''}}">{{steps}}</view>
+        <view class="steps-unit">步</view>
+      </view>
+      <view class="carbon-counter">
+        <view class="carbon-counter-value">{{carbonReductionText}}</view>
+        <view class="carbon-counter-label">减碳量</view>
+      </view>
+    </view>
+
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+    </view>
+
+    <view class="challenge-stats">
+      <view class="stat-item">
+        <view class="stat-value">{{routeDistanceText}}</view>
+        <view class="stat-label">路线距离</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{routeDurationText}}</view>
+        <view class="stat-label">挑战时长</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{rewardPoints}}</view>
+        <view class="stat-label">可领积分</view>
+      </view>
+    </view>
+
+    <view class="step-message" wx:if="{{stepError}}">{{stepError}}</view>
+    <view class="step-message ok" wx:else>
+      {{rewardPoints > 0 ? '当前可领取 ' + rewardPoints + ' 积分' : '距离 ' + nextTarget + ' 步目标继续加油'}}
+    </view>
+    <button wx:if="{{stepError}}" class="settings-button" bindtap="openSettings">打开授权设置</button>
+
+    <view class="action-row">
+      <button class="danger-button" bindtap="endChallenge">
+        结束挑战
+      </button>
+    </view>
+  </view>
+
+  <view wx:if="{{routeSummaryVisible}}" class="challenge-result-layer">
+    <view class="challenge-result-card">
+      <view class="result-kicker">绿色环保碳普惠</view>
+      <view class="result-title">本次健走完成</view>
+      <view class="result-subtitle">校园低碳出行记录已生成，继续积累绿色碳惠积分。</view>
+
+      <view class="result-hero-row">
+        <view class="result-hero-item">
+          <view class="result-hero-value">{{routeDistanceText}}</view>
+          <view class="result-hero-label">路线距离</view>
+        </view>
+        <view class="result-hero-item">
+          <view class="result-hero-value">{{routeDurationText}}</view>
+          <view class="result-hero-label">挑战时长</view>
+        </view>
+        <view class="result-hero-item">
+          <view class="result-hero-value">{{rewardPoints}}</view>
+          <view class="result-hero-label">碳惠积分</view>
+        </view>
+      </view>
+
+      <view class="result-info-list">
+        <view class="result-info-row">
+          <view class="result-info-label">所在校区</view>
+          <view class="result-info-value">{{campus.label}}</view>
+        </view>
+        <view class="result-info-row">
+          <view class="result-info-label">微信步数</view>
+          <view class="result-info-value">{{steps}} 步</view>
+        </view>
+        <view class="result-info-row">
+          <view class="result-info-label">减碳量</view>
+          <view class="result-info-value">{{carbonReductionText}}</view>
+        </view>
+        <view class="result-info-row">
+          <view class="result-info-label">轨迹点数</view>
+          <view class="result-info-value">{{routePointCount}} 个</view>
+        </view>
+        <view class="result-info-row">
+          <view class="result-info-label">开始时间</view>
+          <view class="result-info-value">{{routeStartText}}</view>
+        </view>
+        <view class="result-info-row">
+          <view class="result-info-label">结束时间</view>
+          <view class="result-info-value">{{routeEndText}}</view>
+        </view>
+        <view class="result-info-row">
+          <view class="result-info-label">起点坐标</view>
+          <view class="result-info-value">{{routeStartPointText}}</view>
+        </view>
+        <view class="result-info-row">
+          <view class="result-info-label">终点坐标</view>
+          <view class="result-info-value">{{routeEndPointText}}</view>
+        </view>
+      </view>
+    </view>
+    <button
+      class="result-claim-button"
+      bindtap="claimReward"
+      loading="{{claiming}}"
+      disabled="{{!canClaim || claiming}}"
+    >
+      {{status === 'COMPLETED' ? '已领取积分' : (canClaim ? '领取积分 +' + rewardPoints : '达到 ' + nextTarget + ' 步后领取')}}
+    </button>
+    <button class="result-home-button" bindtap="goHome">返回首页</button>
+  </view>
+</view>

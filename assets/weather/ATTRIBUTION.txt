@@ -1,0 +1,4 @@
+Weather icons in this folder are adapted from OpenMoji:
+https://github.com/hfg-gmuend/openmoji
+
+License: CC BY-SA 4.0

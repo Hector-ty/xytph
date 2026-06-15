@@ -1,0 +1,93 @@
+<app-nav></app-nav>
+<view class="page-shell detail-page">
+  <view class="detail-hero" style="background: {{zone.pale}}">
+    <view class="safe-top"></view>
+    <view class="detail-topbar">
+      <button class="back-button" bindtap="goBack">‹</button>
+      <view class="detail-status" style="color: {{zone.color}}">{{statusLabel}}</view>
+    </view>
+    <view class="detail-hero-copy">
+      <view class="detail-zone" style="color: {{zone.color}}">{{zone.name}}</view>
+      <view class="detail-title">{{task.name}}</view>
+      <view class="detail-subtitle">{{task.subtitle}}</view>
+    <view class="detail-tags">
+      <view class="detail-tag">{{task.typeLabel}}</view>
+      <view class="detail-tag">每日任务</view>
+    </view>
+  </view>
+    <view class="detail-point-orbit" style="border-color: {{zone.color}}">
+      <view class="detail-point-value" style="color: {{zone.color}}">+{{task.points}}</view>
+      <view class="detail-point-label">积分</view>
+    </view>
+    <view class="detail-hero-icon" style="color: {{zone.color}}">{{task.icon}}</view>
+  </view>
+
+  <view class="page-content detail-content">
+    <view class="section-title-row">
+      <view class="section-title">参与步骤</view>
+      <view class="pill" style="color: {{zone.color}}; background: {{zone.pale}}">简单 {{task.instructions.length}} 步</view>
+    </view>
+    <view class="steps-panel panel">
+      <view class="step-row" wx:for="{{task.instructions}}" wx:key="*this">
+        <view class="step-index" style="background: {{zone.color}}">{{index + 1}}</view>
+        <view class="step-text">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="section-title-row">
+      <view class="section-title">积分规则</view>
+    </view>
+    <view class="rule-panel panel">
+      <view class="rule-icon" style="color: {{zone.color}}; background: {{zone.pale}}">则</view>
+      <view class="rule-text">{{task.rule}}</view>
+    </view>
+
+    <block wx:if="{{task.type === 'PHOTO'}}">
+      <view class="section-title-row">
+        <view class="section-title">上传凭证</view>
+        <view class="section-note">仅用于本次活动审核</view>
+      </view>
+      <view class="evidence-panel panel">
+        <view class="evidence-empty" wx:if="{{!evidence}}" bindtap="chooseEvidence">
+          <view class="evidence-add" style="color: {{zone.color}}; border-color: {{zone.color}}">＋</view>
+          <view class="evidence-title">拍照或从相册选择</view>
+          <view class="evidence-note">请勿上传他人隐私信息</view>
+        </view>
+        <view class="evidence-preview" wx:else>
+          <image src="{{evidence}}" mode="aspectFill" bindtap="previewEvidence"></image>
+          <button class="evidence-remove" bindtap="removeEvidence" loading="{{submitting}}">×</button>
+        </view>
+        <view class="ai-review-note {{aiReview && aiReview.passed === false ? 'ai-review-warn' : ''}}" wx:if="{{aiReviewLabel}}">
+          {{aiReviewLabel}}
+        </view>
+      </view>
+    </block>
+
+    <button
+      wx:if="{{canClaim}}"
+      class="primary-button detail-action"
+      bindtap="claimPoints"
+      loading="{{claiming}}"
+      style="{{'background:' + zone.color}}"
+    >
+      领取积分 +{{task.points}}
+    </button>
+    <button
+      wx:elif="{{canSubmitEvidence}}"
+      class="primary-button detail-action"
+      bindtap="submitEvidence"
+      loading="{{submitting}}"
+    >
+      提交并领积分
+    </button>
+    <button
+      wx:else
+      class="primary-button detail-action"
+      bindtap="handleAction"
+      disabled="{{!isStepChallenge && (status === 'COMPLETED' || status === 'PENDING_REVIEW')}}"
+      style="{{(isStepChallenge || status === 'NOT_STARTED') ? 'background:' + zone.color : ''}}"
+    >
+      {{isStepChallenge ? '开始挑战' : (status === 'NOT_STARTED' ? (task.type === 'PHOTO' ? '添加任务照片' : task.typeLabel) : (status === 'REJECTED' && task.type === 'PHOTO' ? '重新上传照片' : statusLabel))}}
+    </button>
+  </view>
+</view>

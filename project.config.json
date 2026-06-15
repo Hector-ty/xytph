@@ -1,0 +1,143 @@
+{
+  "appid": "wx1a4f50b59ca32c52",
+  "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "libVersion": "trial",
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "folder",
+        "value": ".git"
+      },
+      {
+        "type": "folder",
+        "value": "output"
+      },
+      {
+        "type": "folder",
+        "value": "rendered_spec"
+      },
+      {
+        "type": "folder",
+        "value": "rendered_spec_word"
+      },
+      {
+        "type": "folder",
+        "value": "rendered_complete_v2"
+      },
+      {
+        "type": "folder",
+        "value": "rendered_complete_v2_final"
+      },
+      {
+        "type": "folder",
+        "value": "source_docs"
+      },
+      {
+        "type": "folder",
+        "value": "extracted"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions"
+      },
+      {
+        "type": "folder",
+        "value": "scripts"
+      },
+      {
+        "type": "folder",
+        "value": "components"
+      },
+      {
+        "type": "folder",
+        "value": "pages/index"
+      },
+      {
+        "type": "folder",
+        "value": "pages/logs"
+      },
+      {
+        "type": "file",
+        "value": "README.md"
+      },
+      {
+        "type": "file",
+        "value": "mini_program_unified_spec.md"
+      },
+      {
+        "type": "file",
+        "value": "build_mini_program_spec_docx.py"
+      },
+      {
+        "type": "file",
+        "value": "convert_docx_with_word.ps1"
+      },
+      {
+        "type": "file",
+        "value": "extract_source_docs.py"
+      },
+      {
+        "type": "file",
+        "value": "make_contact_sheets.py"
+      },
+      {
+        "type": "file",
+        "value": "render_and_audit_spec.py"
+      },
+      {
+        "type": "file",
+        "value": "render_pdf_winrt.ps1"
+      },
+      {
+        "type": "file",
+        "value": "render_xps_pages.ps1"
+      },
+      {
+        "type": "file",
+        "value": "utils/util.js"
+      },
+      {
+        "type": "file",
+        "value": "shared/quiz-config-200.json"
+      },
+      {
+        "type": "file",
+        "value": "project.private.config.json"
+      }
+    ],
+    "include": []
+  },
+  "setting": {
+    "coverView": true,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "showShadowRootInWxmlPanel": true,
+    "packNpmRelationList": [],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "auto",
+    "tabSize": 2
+  },
+  "simulatorPluginLibVersion": {}
+}

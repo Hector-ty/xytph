@@ -1,0 +1,93 @@
+<app-nav></app-nav>
+<view class="page-shell tasks-page">
+  <view class="safe-top"></view>
+  <view class="topbar tasks-topbar">
+    <view>
+      <view class="topbar-title">低碳任务</view>
+      <view class="topbar-subtitle">五大专区，完成一件就是改变</view>
+    </view>
+    <button class="rules-button" bindtap="goRules">规则</button>
+  </view>
+
+  <view class="page-content tasks-content">
+    <view class="summary-panel">
+      <view class="summary-copy">
+        <view class="summary-kicker">今日任务进度</view>
+        <view class="summary-title">已完成 {{summary.done}} 项</view>
+        <view class="summary-note">待审核 {{summary.pending}} 项 · 待领取 {{summary.claimable}} 项</view>
+      </view>
+      <view class="summary-score">
+        <view class="summary-score-value">+{{summary.points}}</view>
+        <view class="summary-score-label">任务积分</view>
+      </view>
+      <view class="summary-hill hill-one"></view>
+      <view class="summary-hill hill-two"></view>
+    </view>
+
+    <scroll-view class="zone-tabs" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="zone-tabs-inner">
+        <button
+          class="zone-tab {{selectedZone === item.code ? 'active' : ''}}"
+          wx:for="{{zones}}"
+          wx:key="code"
+          bindtap="selectZone"
+          data-zone="{{item.code}}"
+          style="{{selectedZone === item.code ? 'border-color:' + item.color + ';color:' + item.color + ';background:' + item.pale : ''}}"
+        >
+          <view class="zone-tab-icon" style="background: {{item.color}}">{{item.icon}}</view>
+          <text>{{item.short}}</text>
+        </button>
+      </view>
+    </scroll-view>
+
+    <view class="zone-banner" style="background: {{selectedZoneInfo.pale}}">
+      <view class="zone-banner-icon" style="color: {{selectedZoneInfo.color}}">{{selectedZoneInfo.icon}}</view>
+      <view class="zone-banner-copy">
+        <view class="zone-banner-title" style="color: {{selectedZoneInfo.color}}">{{selectedZoneInfo.name}}</view>
+        <view class="zone-banner-note">{{selectedZoneInfo.slogan}} · {{selectedZoneInfo.capNote}}</view>
+      </view>
+      <view class="zone-banner-leaf" style="border-color: {{selectedZoneInfo.color}}"></view>
+    </view>
+
+    <view class="task-list">
+      <view
+        class="task-card panel"
+        wx:for="{{tasks}}"
+        wx:key="id"
+        bindtap="openTask"
+        data-id="{{item.id}}"
+      >
+        <view class="task-icon" style="color: {{item.zoneColor}}; background: {{item.zonePale}}">{{item.icon}}</view>
+        <view class="task-main">
+          <view class="task-heading-row">
+            <view class="task-name">{{item.name}}</view>
+            <view class="task-points" style="color: {{item.zoneColor}}">{{item.pointsLabel}}</view>
+          </view>
+          <view class="task-subtitle">{{item.subtitle}}</view>
+          <view class="task-meta-row">
+            <view class="task-type">{{item.typeLabel}}</view>
+            <view class="task-progress" wx:if="{{item.progress > 0 && item.status !== 'COMPLETED'}}">
+              <view class="task-progress-bar">
+                <view class="task-progress-fill" style="width: {{item.progress}}%; background: {{item.zoneColor}}"></view>
+              </view>
+              <text>{{item.progress}}%</text>
+            </view>
+          </view>
+        </view>
+        <view class="task-status status-{{item.status}}" style="{{item.status === 'NOT_STARTED' ? 'background:' + item.zoneColor : ''}}">
+          {{item.statusLabel}}
+        </view>
+        <button
+          class="task-claim-button {{item.canClaim ? 'ready' : ''}}"
+          catchtap="claimTask"
+          data-id="{{item.id}}"
+          loading="{{claimingTaskId === item.id}}"
+          disabled="{{claimingTaskId === item.id || !item.canClaim}}"
+          style="{{item.canClaim ? 'background:' + item.zoneColor : ''}}"
+        >
+          {{item.claimButtonLabel}}
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

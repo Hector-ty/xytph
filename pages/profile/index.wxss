@@ -1,0 +1,135 @@
+.profile-page {
+  background: linear-gradient(180deg, #e1f4e9 0%, #f5f8f4 380rpx);
+}
+
+.topbar-space {
+  width: 64rpx;
+}
+
+.profile-heading {
+  min-height: 150rpx;
+  padding: 22rpx;
+  display: flex;
+  align-items: center;
+}
+
+.profile-heading-avatar {
+  width: 92rpx;
+  height: 92rpx;
+  margin-right: 18rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #dff2d6;
+}
+
+.profile-heading-avatar image {
+  width: 100%;
+  height: 100%;
+  transform: scale(1.35) translateY(6rpx);
+}
+
+.profile-heading-title {
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.profile-heading-note {
+  margin-top: 8rpx;
+  font-size: 19rpx;
+  color: #798d83;
+}
+
+.form-panel {
+  margin-top: 22rpx;
+  overflow: hidden;
+}
+
+.form-row {
+  min-height: 112rpx;
+  padding: 0 22rpx;
+  border-bottom: 2rpx solid #edf2ee;
+  display: flex;
+  align-items: center;
+}
+
+.form-row-picker {
+  display: block;
+}
+
+.form-row:last-child {
+  border-bottom: 0;
+}
+
+.form-row-picker .form-row-select {
+  border-bottom: 2rpx solid #edf2ee;
+}
+
+.form-label {
+  flex: none;
+  width: 145rpx;
+  font-size: 23rpx;
+  font-weight: 700;
+}
+
+.form-input,
+.form-picker,
+.form-readonly {
+  min-width: 0;
+  flex: 1;
+  font-size: 22rpx;
+  text-align: right;
+  color: #536e61;
+}
+
+.form-picker {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.picker-value {
+  min-width: 0;
+  flex: 1;
+}
+
+.form-picker text {
+  margin-left: 10rpx;
+  font-size: 32rpx;
+  color: #9aaba2;
+}
+
+.form-readonly {
+  color: #8c9c94;
+}
+
+.privacy-note {
+  margin-top: 22rpx;
+  padding: 18rpx;
+  border-radius: 14rpx;
+  display: flex;
+  align-items: flex-start;
+  font-size: 19rpx;
+  line-height: 1.55;
+  color: #688075;
+  background: #e9f3ed;
+}
+
+.privacy-icon {
+  flex: none;
+  width: 46rpx;
+  height: 46rpx;
+  margin-right: 12rpx;
+  border-radius: 14rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17rpx;
+  font-weight: 900;
+  color: #287456;
+  background: #fff;
+}
+
+.save-button {
+  margin-top: 34rpx;
+}

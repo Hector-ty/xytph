@@ -1,0 +1,126 @@
+<app-nav></app-nav>
+<view class="page-shell staff-page">
+  <view class="staff-hero">
+    <view class="safe-top"></view>
+    <view class="staff-topbar">
+      <button class="back-button" bindtap="goBack">‹</button>
+      <view class="staff-title">{{homeTitle}}</view>
+      <view class="staff-role">{{roleLabel}}</view>
+    </view>
+    <view class="staff-summary">
+      <view class="staff-summary-main">
+        <view class="staff-summary-label">{{scopeLabel}}</view>
+        <view class="staff-summary-title">{{scopeValue}}</view>
+        <view class="staff-summary-note">{{homeSubtitle}}</view>
+      </view>
+      <view class="staff-count">
+        <view>{{operationCount}}</view>
+        <text>{{countLabel}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-content staff-content">
+    <view class="summary-grid" wx:if="{{summaryCards.length}}">
+      <view class="summary-card" wx:for="{{summaryCards}}" wx:key="label">
+        <view class="summary-value">{{item.value}}</view>
+        <view class="summary-label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <view class="section-title-row">
+      <view class="section-title">{{role === 'admin' ? '后台功能' : '现场操作'}}</view>
+      <view class="section-note">按当前身份授权展示</view>
+    </view>
+    <view class="staff-actions">
+      <button
+        class="staff-action panel {{loadingAction === item.id ? 'staff-action-loading' : ''}}"
+        wx:for="{{actions}}"
+        wx:key="id"
+        bindtap="runAction"
+        data-id="{{item.id}}"
+      >
+        <view class="staff-action-icon" style="color: {{item.color}}; background: {{item.color}}1A">{{item.icon}}</view>
+        <view class="staff-action-title">{{item.title}}</view>
+        <view class="staff-action-note">{{item.note}}</view>
+      </button>
+    </view>
+
+    <view class="staff-warning">
+      <view class="staff-warning-icon">权</view>
+      <view>{{noticeText}}</view>
+    </view>
+
+    <view class="section-title-row">
+      <view class="section-title">{{role === 'admin' ? '审计日志' : '本人操作记录'}}</view>
+      <view class="section-note">{{logLoading ? '正在刷新' : operationLogs.length + ' 条'}}</view>
+    </view>
+
+    <view class="log-empty panel" wx:if="{{!logLoading && !operationLogs.length}}">
+      今日暂无操作记录
+    </view>
+    <view class="log-list" wx:else>
+      <view class="log-card panel" wx:for="{{operationLogs}}" wx:key="id">
+        <view class="log-icon">{{item.shortLabel}}</view>
+        <view class="log-main">
+          <view class="log-title-row">
+            <view class="log-title">{{item.actionLabel}}</view>
+            <view class="log-time">{{item.timeText}}</view>
+          </view>
+          <view class="log-meta" wx:if="{{item.studentName}}">{{item.studentName}} · {{item.studentCollege}} · {{item.studentNoMasked}}</view>
+          <view class="log-meta" wx:elif="{{item.taskName}}">{{item.taskName}}</view>
+          <view class="log-result">{{item.resultText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <block wx:if="{{role === 'admin'}}">
+      <view class="section-title-row">
+        <view class="section-title">上传凭证复审</view>
+        <view class="section-note">{{auditLoading ? '正在刷新' : auditItems.length + ' 张图片'}}</view>
+      </view>
+
+      <view class="audit-empty panel" wx:if="{{!auditLoading && !auditItems.length}}">
+        暂无用户上传凭证
+      </view>
+
+      <view class="audit-list" wx:else>
+        <view class="audit-card panel" wx:for="{{auditItems}}" wx:key="id">
+          <image
+            class="audit-thumb"
+            wx:if="{{item.imageSrc}}"
+            src="{{item.imageSrc}}"
+            mode="aspectFill"
+            bindtap="previewAuditImage"
+            data-src="{{item.imageSrc}}"
+          ></image>
+          <view class="audit-main">
+            <view class="audit-title-row">
+              <view class="audit-title">{{item.taskName}}</view>
+              <view class="audit-status">{{item.statusLabel}}</view>
+            </view>
+            <view class="audit-meta">{{item.zoneName}} · {{item.user.name}} · {{item.submittedText}}</view>
+            <view class="audit-ai audit-ai-{{item.aiClass}}">{{item.aiLabel}}</view>
+            <view class="audit-reason" wx:if="{{item.aiReason}}">{{item.aiReason}}</view>
+            <view class="audit-buttons">
+              <button
+                class="audit-button approve"
+                bindtap="reviewAudit"
+                data-id="{{item.id}}"
+                data-status="APPROVED"
+                disabled="{{item.status === 'COMPLETED' || item.status === 'READY_TO_CLAIM' || auditLoading}}"
+              >通过</button>
+              <button
+                class="audit-button reject"
+                bindtap="reviewAudit"
+                data-id="{{item.id}}"
+                data-status="REJECTED"
+                disabled="{{item.status === 'REJECTED' || auditLoading}}"
+              >驳回</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>
