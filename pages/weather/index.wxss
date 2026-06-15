@@ -331,33 +331,46 @@
 .air-metrics-grid {
   margin-top: 22rpx;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14rpx;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10rpx;
 }
 
 .air-metric {
-  min-height: 114rpx;
-  padding: 18rpx;
-  border-radius: 18rpx;
+  min-width: 0;
+  min-height: 108rpx;
+  padding: 14rpx 8rpx;
+  border-radius: 16rpx;
+  text-align: center;
   background: linear-gradient(180deg, #f8fcf8 0%, #edf6ef 100%);
 }
 
 .air-metric-title {
+  overflow: hidden;
   font-size: 20rpx;
+  line-height: 1.2;
   color: #6e867a;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .air-metric-value {
-  margin-top: 14rpx;
-  font-size: 30rpx;
+  margin-top: 12rpx;
+  overflow: hidden;
+  font-size: 28rpx;
   line-height: 1;
   font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .air-metric-unit {
-  margin-top: 8rpx;
-  font-size: 18rpx;
+  margin-top: 7rpx;
+  overflow: hidden;
+  font-size: 16rpx;
+  line-height: 1.2;
   color: #87a095;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tips-panel,
@@ -422,10 +435,6 @@
 
 @media (max-width: 390px) {
   .relation-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .air-metrics-grid {
     grid-template-columns: 1fr;
   }
 }

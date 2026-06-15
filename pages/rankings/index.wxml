@@ -66,7 +66,9 @@
           <view class="walking-sync-title">今日微信步数</view>
           <view class="walking-sync-note">{{walkingSyncError || walkingSyncText || '同步后按步数排名，减碳量按 0.142g/步估算'}}</view>
         </view>
-        <button class="walking-sync-button" bindtap="syncWalkingSteps" loading="{{walkingSyncing}}">同步</button>
+        <button class="walking-sync-button" bindtap="syncWalkingSteps" loading="{{walkingSyncing}}">
+          <text wx:if="{{!walkingSyncing}}">同步</text>
+        </button>
       </view>
     </view>
 

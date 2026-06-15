@@ -341,27 +341,51 @@ function getStepReward(steps) {
   return level ? level.points : 0
 }
 
-function getNextTarget(steps) {
+function getMaxStepReward() {
+  return STEP_LEVELS.reduce((max, item) => Math.max(max, Number(item.points || 0)), 0)
+}
+
+function getClaimedStepPoints(state) {
+  return Number(((state || {}).taskPoints || {})[STEP_TASK_ID] || 0)
+}
+
+function getNextTarget(steps, claimedPoints) {
+  const normalizedSteps = Number(steps || 0)
+  const normalizedClaimedPoints = Number(claimedPoints || 0)
   const levels = STEP_LEVELS
     .slice()
     .sort((a, b) => Number(a.steps || 0) - Number(b.steps || 0))
-  const next = levels.find(item => Number(steps || 0) < Number(item.steps || 0))
+  const next = levels.find(item => (
+    Number(item.points || 0) > normalizedClaimedPoints
+      && normalizedSteps < Number(item.steps || 0)
+  ))
   const last = levels[levels.length - 1]
   return Number((next || last || {}).steps || 0)
 }
 
-function buildStepMetricData(steps, status) {
+function getClaimButtonText(rewardPoints, nextTarget, claimedPoints) {
+  if (Number(rewardPoints || 0) > 0) return `领取${rewardPoints}积分`
+  if (Number(claimedPoints || 0) >= getMaxStepReward()) return '今日步数奖励已达上限'
+  return `达到 ${nextTarget || 0} 步后领取`
+}
+
+function buildStepMetricData(steps, status, claimedPoints) {
   const normalizedSteps = Number(steps || 0)
-  const rewardPoints = getStepReward(normalizedSteps)
-  const nextTarget = getNextTarget(normalizedSteps)
+  const normalizedClaimedPoints = Number(claimedPoints || 0)
+  const targetRewardPoints = getStepReward(normalizedSteps)
+  const rewardPoints = Math.max(0, targetRewardPoints - normalizedClaimedPoints)
+  const nextTarget = getNextTarget(normalizedSteps, normalizedClaimedPoints)
   const maxTarget = Math.max.apply(null, STEP_LEVELS.map(item => Number(item.steps || 0)).concat([1]))
   return {
     steps: normalizedSteps,
+    claimedStepPoints: normalizedClaimedPoints,
+    targetRewardPoints,
     rewardPoints,
     nextTarget,
     progressPercent: Math.min(100, Math.round(normalizedSteps / maxTarget * 100)),
     carbonReductionText: formatCarbonReduction(normalizedSteps),
-    canClaim: rewardPoints > 0 && status !== 'COMPLETED'
+    canClaim: rewardPoints > 0,
+    claimButtonText: getClaimButtonText(rewardPoints, nextTarget, normalizedClaimedPoints)
   }
 }
 
@@ -550,10 +574,13 @@ Page({
     challengeEnded: false,
     steps: 0,
     stepsJumping: false,
+    claimedStepPoints: 0,
+    targetRewardPoints: 0,
     rewardPoints: 0,
-    nextTarget: getNextTarget(0),
+    nextTarget: getNextTarget(0, 0),
     progressPercent: 0,
     carbonReductionText: formatCarbonReduction(0),
+    claimButtonText: getClaimButtonText(0, getNextTarget(0, 0), 0),
     syncedAtText: '尚未同步',
     canClaim: false,
     claiming: false,
@@ -643,15 +670,15 @@ Page({
   refreshStatus() {
     const state = store.getState()
     const status = state.taskStates[STEP_TASK_ID] || 'NOT_STARTED'
-    this.setData({
+    const claimedStepPoints = getClaimedStepPoints(state)
+    this.setData(Object.assign({
       status,
-      statusLabel: status === 'COMPLETED' ? '已领取' : '开始挑战',
-      canClaim: this.data.rewardPoints > 0 && status !== 'COMPLETED'
-    })
+      statusLabel: status === 'COMPLETED' ? '已领取' : '开始挑战'
+    }, buildStepMetricData(this.data.steps, status, claimedStepPoints)))
   },
 
   refreshStepMetrics() {
-    this.setData(buildStepMetricData(this.data.steps, this.data.status))
+    this.setData(buildStepMetricData(this.data.steps, this.data.status, this.data.claimedStepPoints))
   },
 
   updateStepNav(campus, statusText) {
@@ -1404,9 +1431,17 @@ Page({
   },
 
   applyStepSyncResult(response) {
+    if (response && response.state) {
+      store.saveState(response.state)
+    }
+    const state = store.getState()
     const previousSteps = Number(this.data.steps || 0)
     const steps = Number(response.todayStep || 0)
-    this.finishStepSync(Object.assign(buildStepMetricData(steps, this.data.status), {
+    const status = state.taskStates[STEP_TASK_ID] || this.data.status
+    this.finishStepSync(Object.assign({
+      status,
+      statusLabel: status === 'COMPLETED' ? '已领取' : '开始挑战'
+    }, buildStepMetricData(steps, status, getClaimedStepPoints(state)), {
       syncedAtText: formatTime(Date.now()),
       stepError: ''
     }))
@@ -1476,10 +1511,6 @@ Page({
   },
 
   claimReward() {
-    if (this.data.status === 'COMPLETED') {
-      wx.showToast({ title: '今日已完成', icon: 'none' })
-      return
-    }
     if (!this.data.canClaim) {
       wx.showToast({ title: `达到 ${this.data.nextTarget || 0} 步后可领取`, icon: 'none' })
       return
@@ -1495,8 +1526,11 @@ Page({
     this.setData({ claiming: true })
     store.claimTaskPointsAsync(rewardTask).then(result => {
       this.setData({ claiming: false })
+      const unchangedTitle = result.code === 'LIMIT_REACHED'
+        ? '今日专区积分已达上限'
+        : (result.code === 'ALREADY_CLAIMED' ? '当前档位已领取' : '今日已领取')
       wx.showToast({
-        title: result.changed ? `领取成功 +${result.points || this.data.rewardPoints}` : '今日已领取',
+        title: result.changed ? `领取成功 +${result.points || this.data.rewardPoints}` : unchangedTitle,
         icon: result.changed ? 'success' : 'none'
       })
       this.refreshStatus()

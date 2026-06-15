@@ -42,17 +42,19 @@
       </view>
     </view>
     <button class="wechat-login-button" loading="{{loginLoading}}" bindtap="handleWechatLogin">
-      <view class="wechat-button-icon">
-        <view class="wechat-bubble wechat-bubble-main">
-          <view class="wechat-dot wechat-dot-one"></view>
-          <view class="wechat-dot wechat-dot-two"></view>
+      <block wx:if="{{!loginLoading}}">
+        <view class="wechat-button-icon">
+          <view class="wechat-bubble wechat-bubble-main">
+            <view class="wechat-dot wechat-dot-one"></view>
+            <view class="wechat-dot wechat-dot-two"></view>
+          </view>
+          <view class="wechat-bubble wechat-bubble-sub">
+            <view class="wechat-dot wechat-dot-three"></view>
+            <view class="wechat-dot wechat-dot-four"></view>
+          </view>
         </view>
-        <view class="wechat-bubble wechat-bubble-sub">
-          <view class="wechat-dot wechat-dot-three"></view>
-          <view class="wechat-dot wechat-dot-four"></view>
-        </view>
-      </view>
-      <text>{{loginLoading ? '正在登录' : '微信一键登录'}}</text>
+        <text>微信一键登录</text>
+      </block>
     </button>
     <button class="text-button" bindtap="showRegister">没有账号，先注册</button>
     <button class="text-button identity-link-button" bindtap="showIdentity">切换身份</button>
@@ -134,7 +136,7 @@
     </view>
 
     <button class="submit-button" loading="{{submitting}}" bindtap="submit">
-      {{submitting ? '正在进入' : '注册并进入'}}
+      <text wx:if="{{!submitting}}">注册并进入</text>
     </button>
     <button class="text-button" bindtap="showLogin">已有账号，返回登录</button>
   </view>

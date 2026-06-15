@@ -85,7 +85,7 @@
           disabled="{{claimingTaskId === item.id || !item.canClaim}}"
           style="{{item.canClaim ? 'background:' + item.zoneColor : ''}}"
         >
-          {{item.claimButtonLabel}}
+          <text wx:if="{{claimingTaskId !== item.id}}">{{item.claimButtonLabel}}</text>
         </button>
       </view>
     </view>

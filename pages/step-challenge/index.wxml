@@ -20,7 +20,9 @@
         <view class="steps-label">微信运动步数</view>
         <view class="steps-sync">同步时间 {{syncedAtText}}</view>
       </view>
-      <button class="sync-button" bindtap="syncSteps" loading="{{loadingSteps}}" style="width: 100rpx; display: flex; box-sizing: border-box; left: 195rpx; top: 2rpx; position: relative">同步</button>
+      <button class="sync-button" bindtap="syncSteps" loading="{{loadingSteps}}" style="width: 100rpx; display: flex; box-sizing: border-box; left: 195rpx; top: 2rpx; position: relative">
+        <text wx:if="{{!loadingSteps}}">同步</text>
+      </button>
     </view>
 
     <view class="steps-main">
@@ -128,7 +130,7 @@
       loading="{{claiming}}"
       disabled="{{!canClaim || claiming}}"
     >
-      {{status === 'COMPLETED' ? '已领取积分' : (canClaim ? '领取积分 +' + rewardPoints : '达到 ' + nextTarget + ' 步后领取')}}
+      <text wx:if="{{!claiming}}">{{claimButtonText}}</text>
     </button>
     <button class="result-home-button" bindtap="goHome">返回首页</button>
   </view>

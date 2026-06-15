@@ -55,7 +55,9 @@
         </view>
         <view class="evidence-preview" wx:else>
           <image src="{{evidence}}" mode="aspectFill" bindtap="previewEvidence"></image>
-          <button class="evidence-remove" bindtap="removeEvidence" loading="{{submitting}}">×</button>
+          <button class="evidence-remove" bindtap="removeEvidence" loading="{{submitting}}">
+            <text wx:if="{{!submitting}}">×</text>
+          </button>
         </view>
         <view class="ai-review-note {{aiReview && aiReview.passed === false ? 'ai-review-warn' : ''}}" wx:if="{{aiReviewLabel}}">
           {{aiReviewLabel}}
@@ -70,7 +72,7 @@
       loading="{{claiming}}"
       style="{{'background:' + zone.color}}"
     >
-      领取积分 +{{task.points}}
+      <text wx:if="{{!claiming}}">领取积分 +{{task.points}}</text>
     </button>
     <button
       wx:elif="{{canSubmitEvidence}}"
@@ -78,7 +80,7 @@
       bindtap="submitEvidence"
       loading="{{submitting}}"
     >
-      提交并领积分
+      <text wx:if="{{!submitting}}">提交并领积分</text>
     </button>
     <button
       wx:else

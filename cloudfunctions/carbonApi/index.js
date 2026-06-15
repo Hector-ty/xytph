@@ -72,6 +72,7 @@ const STEP_LEVELS = [
   { steps: 5000, points: 5 },
   { steps: 3000, points: 3 }
 ]
+const STEP_TASK_ID = 'green_steps'
 const CARBON_REDUCTION_GRAMS_PER_STEP = 0.142
 
 const TASK_POINT_RULES = {
@@ -385,9 +386,29 @@ function getStepPoints(steps) {
   return matchedLevel ? matchedLevel.points : 0
 }
 
+function getTaskAwardedPoints(state, taskId) {
+  return Number((state.taskPoints || {})[taskId] || 0)
+}
+
+function getCappedStepTotalPoints(state, task) {
+  const rulePoints = getStepPoints(task && task.steps)
+  if (!rulePoints) return 0
+  const zone = getTaskZone(STEP_TASK_ID)
+  const zoneCap = Number(ZONE_DAILY_CAPS[zone] || 0)
+  if (!zoneCap) return rulePoints
+  const remaining = Math.max(0, zoneCap - getZoneAwardedPoints(state, zone, STEP_TASK_ID))
+  return Math.min(rulePoints, remaining)
+}
+
+function getClaimableStepPoints(state, task) {
+  const targetPoints = getCappedStepTotalPoints(state, task)
+  const awardedPoints = getTaskAwardedPoints(state, STEP_TASK_ID)
+  return Math.max(0, targetPoints - awardedPoints)
+}
+
 function getTaskRulePoints(task) {
   const source = task || {}
-  if (source.id === 'green_steps') {
+  if (source.id === STEP_TASK_ID) {
     return getStepPoints(source.steps)
   }
   return Number(TASK_POINT_RULES[source.id] || 0)
@@ -399,7 +420,7 @@ function getTaskZone(taskId) {
 
 function getServerTask(taskId) {
   const id = String(taskId || '').trim()
-  if (!id || !TASK_POINT_RULES[id] && id !== 'green_steps') return null
+  if (!id || !TASK_POINT_RULES[id] && id !== STEP_TASK_ID) return null
   return {
     id,
     name: TASK_NAMES[id] || id,
@@ -831,6 +852,15 @@ function awardTaskPoints(state, taskId, points) {
   const normalizedPoints = Number(points || 0)
   if (!normalizedPoints || state.taskPoints[taskId]) return 0
   state.taskPoints[taskId] = normalizedPoints
+  state.user.points = Number(state.user.points || 0) + normalizedPoints
+  state.user.rankTotal = Number(state.user.rankTotal || 0) + normalizedPoints
+  return normalizedPoints
+}
+
+function addTaskPoints(state, taskId, points) {
+  const normalizedPoints = Number(points || 0)
+  if (!normalizedPoints) return 0
+  state.taskPoints[taskId] = getTaskAwardedPoints(state, taskId) + normalizedPoints
   state.user.points = Number(state.user.points || 0) + normalizedPoints
   state.user.rankTotal = Number(state.user.rankTotal || 0) + normalizedPoints
   return normalizedPoints
@@ -1437,11 +1467,81 @@ async function completeTask(openid, payload) {
   return { changed: true, points: awardedPoints, state: await saveState(openid, state) }
 }
 
+function updateStepEvidence(state, task, awardedPoints, targetPoints) {
+  const now = Date.now()
+  const existing = (state.taskEvidence || {})[STEP_TASK_ID] || {}
+  state.taskEvidence[STEP_TASK_ID] = Object.assign({}, existing, {
+    id: existing.id || `${STEP_TASK_ID}-${now}`,
+    taskId: STEP_TASK_ID,
+    taskName: task.name || TASK_NAMES[STEP_TASK_ID] || STEP_TASK_ID,
+    zone: getTaskZone(STEP_TASK_ID),
+    points: getTaskAwardedPoints(state, STEP_TASK_ID),
+    lastAwardedPoints: Number(awardedPoints || 0),
+    targetPoints: Number(targetPoints || 0),
+    steps: Number(task.steps || 0),
+    submittedAt: existing.submittedAt || now,
+    claimedAt: now,
+    status: 'COMPLETED'
+  })
+}
+
+async function claimStepTaskPoints(openid, state, task) {
+  const current = state.taskStates[STEP_TASK_ID] || 'NOT_STARTED'
+  const normalizedSteps = Number(task.steps || 0)
+  const targetPoints = getStepPoints(normalizedSteps)
+  const awardedBefore = getTaskAwardedPoints(state, STEP_TASK_ID)
+
+  if (normalizedSteps > 0 || task.timestamp) {
+    updateWeRunState(state, normalizedSteps, task.timestamp)
+  }
+
+  if (!targetPoints) {
+    state.taskStates[STEP_TASK_ID] = current || 'NOT_STARTED'
+    return {
+      changed: false,
+      code: 'NOT_READY_TO_CLAIM',
+      points: 0,
+      claimedPoints: awardedBefore,
+      targetPoints,
+      state: await saveState(openid, state)
+    }
+  }
+
+  const points = getClaimableStepPoints(state, task)
+  if (!points) {
+    if (awardedBefore > 0) markTaskCompleted(state, STEP_TASK_ID)
+    return {
+      changed: false,
+      code: targetPoints > awardedBefore ? 'LIMIT_REACHED' : 'ALREADY_CLAIMED',
+      points: 0,
+      claimedPoints: awardedBefore,
+      targetPoints,
+      state: await saveState(openid, state)
+    }
+  }
+
+  touchDailyTasks(state)
+  const awardedPoints = addTaskPoints(state, STEP_TASK_ID, points)
+  updateStepEvidence(state, task, awardedPoints, targetPoints)
+  markTaskCompleted(state, STEP_TASK_ID)
+  return {
+    changed: Boolean(awardedPoints),
+    points: awardedPoints,
+    claimedPoints: getTaskAwardedPoints(state, STEP_TASK_ID),
+    targetPoints,
+    state: await saveState(openid, state)
+  }
+}
+
 async function claimTaskPoints(openid, payload) {
   const state = await getOrCreateState(openid)
   const task = payload.task || {}
   const taskId = task.id
   if (!taskId) return { changed: false, code: 'MISSING_TASK', state }
+
+  if (taskId === STEP_TASK_ID) {
+    return claimStepTaskPoints(openid, state, task)
+  }
 
   if (state.taskPoints[taskId]) {
     const evidenceStatus = state.taskEvidence[taskId] && state.taskEvidence[taskId].status
@@ -1453,8 +1553,7 @@ async function claimTaskPoints(openid, payload) {
   }
 
   const current = state.taskStates[taskId] || 'NOT_STARTED'
-  const canClaimStepTask = taskId === 'green_steps' && getTaskRulePoints(task) > 0 && current !== 'COMPLETED'
-  if (current !== 'READY_TO_CLAIM' && current !== 'COMPLETED' && !canClaimStepTask) {
+  if (current !== 'READY_TO_CLAIM' && current !== 'COMPLETED') {
     return { changed: false, code: 'NOT_READY_TO_CLAIM', state }
   }
 
@@ -1465,9 +1564,6 @@ async function claimTaskPoints(openid, payload) {
     return { changed: false, code: 'LIMIT_REACHED', points: 0, state: await saveState(openid, state) }
   }
 
-  if (taskId === 'green_steps') {
-    updateWeRunState(state, task.steps, task.timestamp)
-  }
   const awardedPoints = awardTaskPoints(state, taskId, points)
   markTaskCompleted(state, taskId)
   return { changed: Boolean(awardedPoints), points: awardedPoints || points, state: await saveState(openid, state) }

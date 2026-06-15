@@ -204,13 +204,13 @@
         class="feature-major feature-major-shop"
         bindtap="goTarget"
         data-tab="/pages/rewards/index"
-       style="position: absolute; left: 199rpx; top: 291rpx">
+       style="position: absolute; left: 199rpx; top: 295rpx">
         <view class="major-sun"></view>
         <view class="major-canopy canopy-one"></view>
         <view class="major-canopy canopy-two"></view>
         <view class="major-hill"></view>
         <view class="major-icon" style="position: relative; left: 0rpx; top: -24rpx">商</view>
-        <view class="major-title">普惠商城</view>
+        <view class="major-title" style="position: relative; left: 0rpx; top: -121rpx">普惠商城</view>
         <view class="major-note">积分换好礼</view>
       </view>
       <image
